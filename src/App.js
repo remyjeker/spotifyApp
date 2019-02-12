@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-type Props = {
-  title: string
-};
+import Header from './components/layout/header';
+import Content from './components/layout/content';
+
+import './main.css';
+
+type Props = {};
 
 class App extends Component<Props> {
   render() {
-    const { title = 'default title' } = this.props;
-
     return (
       <div className="App">
-        <header className="App-header">
-          <h4>{title}</h4>
-          <img src={logo} className="App-logo" alt="logo" />
-        </header>
+        <Header title="Spotify App" />
+        <Content />
       </div>
     );
   }

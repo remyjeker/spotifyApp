@@ -1,0 +1,33 @@
+.Header {
+  background-color: rgb(58, 58, 58);
+  height: 40px;
+  padding: 5px;
+}
+
+.Header__wrapper,
+.Header__title {
+  display: inline-block;
+}
+
+.Header__wrapper {
+  float: left;
+}
+
+.HeaderWrapper__logo {
+  height: 38px;
+  pointer-events: none;
+}
+
+.Header__title {
+  color: white;
+  float: right;
+  height: 40px;
+  line-height: 40px;
+  text-transform: capitalize;
+}
+
+.AppContent {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+}
