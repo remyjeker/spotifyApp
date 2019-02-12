@@ -3,20 +3,12 @@ import logo from './logo.svg';
 import './App.css';
 
 type Props = {
-  title?: string
-}
+  title: string
+};
 
-class App extends Component<Props>  {
-
-  // eslint-disable-next-line no-useless-constructor
-  constructor(props: Props) {
-    super(props);
-  }
-
+class App extends Component<Props> {
   render() {
-    const {
-      title = 'default title',
-    } = this.props;
+    const { title = 'default title' } = this.props;
 
     return (
       <div className="App">
