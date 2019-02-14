@@ -9,9 +9,11 @@ type Props = {};
 
 class App extends Component<Props> {
   render() {
+    const appName: string = 'Spotify Artists Search';
+
     return (
-      <div className="App">
-        <Header title="Spotify App" />
+      <div className="App isFullScreen">
+        <Header title={appName} />
         <Content />
       </div>
     );

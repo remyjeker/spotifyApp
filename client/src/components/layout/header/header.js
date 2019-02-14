@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import logo from '../../../spotify_logo.png';
+import logo from '../../../img/spotify_banner.png';
 
 import '../layout.css';
 
@@ -13,11 +13,11 @@ class Header extends Component<Props> {
     const { title } = this.props;
 
     return (
-      <div className="Header">
-        <div className="Header__wrapper">
-          <img src={logo} className="HeaderWrapper__logo" alt="spotify_logo" />
+      <div className="AppHeader">
+        <div className="AppHeader__wrapper">
+          <img src={logo} className="Logo" alt="spotify_logo" />
         </div>
-        <div className="Header__title">{title}</div>
+        <div className="AppHeader__title">{title}</div>
       </div>
     );
   }

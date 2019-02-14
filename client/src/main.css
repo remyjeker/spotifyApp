@@ -1,0 +1,23 @@
+:root {
+  --main-header-color: rgb(58, 58, 58);
+  --main-header-heigth: 50px;
+  --main-logo-heigth: 38px;
+}
+
+.App {
+  text-align: center;
+}
+
+.isFullScreen {
+  height: 100vh;
+  width: 100vw;
+}
+
+.remainingHeight {
+  height: calc(100vh - 50px);
+}
+
+.Logo {
+  height: var(--main-logo-heigth);
+  pointer-events: none;
+}
