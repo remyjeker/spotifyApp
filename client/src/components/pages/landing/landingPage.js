@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import logo from '../../../img/spotify_logo.png';
 
 import './landingPage.css';
-import AuthService from '../../../services/auth/authService';
+import AuthService from '../../../services/auth';
 
 type Props = {};
 
