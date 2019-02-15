@@ -5,10 +5,15 @@ const express = require("express");
 const path = require("path");
 const querystring = require("querystring");
 const request = require("request");
+const http = require("http");
 
 const builtAppPath = "client/build";
-const port = 5000;
 const stateKey = "spotify_auth_state";
+
+const serverPort = 5000;
+const appPort = 5001;
+
+const baseCallbackUri = "/#";
 
 const generateRandomString = length => {
   let text = "";
@@ -29,6 +34,23 @@ const generateHeadersBasicAuthorization = () => {
         process.env.SP_API_CLIENT_ID + ":" + process.env.SP_API_CLIENT_SECRET
       ).toString("base64")
   };
+};
+
+const me = (res, accessToken, refreshToken) => {
+  const options = {
+    url: "https://api.spotify.com/v1/me",
+    headers: { Authorization: "Bearer " + accessToken },
+    json: true
+  };
+
+  request.get(options, (error, response, body) => {
+    console.log(body);
+  });
+
+  res.redirect(`/#/user/${accessToken}/${refreshToken}`);
+
+  // if you only want replace url
+  // res.redirect(301, `/#/user/${accessToken}/${refreshToken}`);
 };
 
 dotenv.load();
@@ -68,12 +90,7 @@ app.get("/api/callback", (req, res) => {
   const storedState = req.cookies ? req.cookies[stateKey] : null;
 
   if (state === null || state !== storedState) {
-    res.redirect(
-      "/#" +
-        querystring.stringify({
-          error: "state_mismatch"
-        })
-    );
+    res.redirect(`${baseCallbackUri}/error/state_mismatch`);
   } else {
     res.clearCookie(stateKey);
 
@@ -90,33 +107,11 @@ app.get("/api/callback", (req, res) => {
 
     request.post(authOptions, (error, response, body) => {
       if (!error && response.statusCode === 200) {
-        const access_token = body.access_token,
-          refresh_token = body.refresh_token;
+        const { access_token, refresh_token } = body;
 
-        const options = {
-          url: "https://api.spotify.com/v1/me",
-          headers: { Authorization: "Bearer " + access_token },
-          json: true
-        };
-
-        request.get(options, (error, response, body) => {
-          console.log(body);
-        });
-
-        res.redirect(
-          "/#" +
-            querystring.stringify({
-              access_token: access_token,
-              refresh_token: refresh_token
-            })
-        );
+        return me(res, access_token, refresh_token);
       } else {
-        res.redirect(
-          "/#" +
-            querystring.stringify({
-              error: "invalid_token"
-            })
-        );
+        res.redirect(`${baseCallbackUri}/error/invalid_token`);
       }
     });
   }
@@ -144,6 +139,12 @@ app.get("/api/refresh_token", (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Listening on port : ${port}`);
+var server = http.createServer(app);
+
+app.listen(appPort, () => {
+  console.log(`App listening on port : ${appPort}`);
+});
+
+server.listen(serverPort, () => {
+  console.log("Web Server listening on port : " + serverPort);
 });

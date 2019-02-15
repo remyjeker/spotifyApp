@@ -9,16 +9,18 @@
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "node-env-run": "^3.0.2",
+    "http": "0.0.0",
     "path": "^0.12.7",
     "querystring": "^0.2.0",
     "request": "^2.88.0"
   },
   "scripts": {
-    "client": "cd client && npm run start",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "prepare-client": "cd client && npm install && npm run build",
     "server": "nodemon server.js",
-    "start": "npm run prepare-client && npm run server"
+    "client": "cd client && npm run start",
+    "prepare-client": "cd client && npm install && npm run build",
+    "start": "npm run prepare-client && npm run server",
+    "initialize": "npm install && npm run prepare-client && npm run dev",
+    "clean": "rm -rf client/build/ && rm -rf client/node_modules/ && rm client/package-lock.json && rm -rf node_modules/ && rm package-lock.json"
   }
 }

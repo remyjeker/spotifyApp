@@ -18,14 +18,21 @@ class LandingPage extends Component<Props> {
   handleClick = (event: Event) => {
     event.preventDefault();
 
-    this.authService.login();
+    this.authService.login().then(
+      data => {
+        console.log('this.authService.login().then()', data);
+
+        window.location.replace('/user/1/2');
+      },
+      error => console.error(error)
+    );
   };
 
   authService: AuthService;
 
   render() {
     return (
-      <div className="LandingPage remainingHeight">
+      <div className="LandingPage">
         <button
           className="LandingPage__loginButton"
           type="button"
