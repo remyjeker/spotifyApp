@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-export default class AuthService {
+export class AuthService {
   login = () => {
     const requestInit = {
       method: 'GET',
@@ -10,6 +9,18 @@ export default class AuthService {
       cache: 'default'
     };
 
-    return fetch('http://localhost:5000/api/login', requestInit);
+    window
+      .fetch('http://localhost:5000/api/login', requestInit)
+      .then(response => {
+        const { body } = response;
+        const reader = body.getReader();
+
+        reader.read().then(a => {
+          // eslint-disable-next-line no-console
+          console.log('Stream complete', a);
+        });
+      });
   };
 }
+
+export default AuthService;

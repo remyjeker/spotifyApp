@@ -35,13 +35,12 @@ export class UserCmp extends Component<{
   render() {
     const { match } = this.props;
     const { params } = match;
-    const { accessToken, refreshToken } = params;
+    const { id } = params;
 
     return (
       <div className="user">
-        <h2>User</h2>
-        <p>{accessToken}</p>
-        <p>{refreshToken}</p>
+        <h2>User ID :</h2>
+        <p>{id}</p>
       </div>
     );
   }
@@ -58,10 +57,7 @@ class Content extends Component<Props> {
 
             <Route path="/landing" component={LandingPage} />
 
-            <Route
-              path="/user/:accessToken/:refreshToken"
-              component={UserCmp}
-            />
+            <Route path="/user/:id" component={UserCmp} />
 
             <Route path="/error/:errorMsg" component={ErrorCmp} />
           </div>

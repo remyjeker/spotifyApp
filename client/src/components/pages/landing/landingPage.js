@@ -18,14 +18,7 @@ class LandingPage extends Component<Props> {
   handleClick = (event: Event) => {
     event.preventDefault();
 
-    this.authService.login().then(
-      data => {
-        console.log('this.authService.login().then()', data);
-
-        window.location.replace('/user/1/2');
-      },
-      error => console.error(error)
-    );
+    this.authService.login();
   };
 
   authService: AuthService;

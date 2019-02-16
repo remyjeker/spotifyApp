@@ -9,11 +9,12 @@ const http = require("http");
 
 const builtAppPath = "client/build";
 const stateKey = "spotify_auth_state";
+const userKey = "spotify_app_user";
 
 const serverPort = 5000;
 const appPort = 5001;
 
-const baseCallbackUri = "/#";
+const baseAppUri = "/#";
 
 const generateRandomString = length => {
   let text = "";
@@ -36,23 +37,6 @@ const generateHeadersBasicAuthorization = () => {
   };
 };
 
-const me = (res, accessToken, refreshToken) => {
-  const options = {
-    url: "https://api.spotify.com/v1/me",
-    headers: { Authorization: "Bearer " + accessToken },
-    json: true
-  };
-
-  request.get(options, (error, response, body) => {
-    console.log(body);
-  });
-
-  res.redirect(`/#/user/${accessToken}/${refreshToken}`);
-
-  // if you only want replace url
-  // res.redirect(301, `/#/user/${accessToken}/${refreshToken}`);
-};
-
 dotenv.load();
 
 const app = express();
@@ -61,6 +45,11 @@ app
   .use(express.static(builtAppPath))
   .use(cors())
   .use(cookieParser());
+
+app.route("/user/:id").get((req, res) => {
+  const { params } = req;
+  res.redirect(200, `/user/${params.id}`);
+});
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, builtAppPath, "index.html"));
@@ -90,7 +79,7 @@ app.get("/api/callback", (req, res) => {
   const storedState = req.cookies ? req.cookies[stateKey] : null;
 
   if (state === null || state !== storedState) {
-    res.redirect(`${baseCallbackUri}/error/state_mismatch`);
+    res.redirect(`${baseAppUri}/error/state_mismatch`);
   } else {
     res.clearCookie(stateKey);
 
@@ -109,12 +98,37 @@ app.get("/api/callback", (req, res) => {
       if (!error && response.statusCode === 200) {
         const { access_token, refresh_token } = body;
 
-        return me(res, access_token, refresh_token);
+        res.redirect(
+          "/api/me?" +
+            querystring.stringify({
+              access_token: access_token,
+              refresh_token: refresh_token
+            })
+        );
       } else {
-        res.redirect(`${baseCallbackUri}/error/invalid_token`);
+        res.redirect(`${baseAppUri}/error/invalid_token`);
       }
     });
   }
+});
+
+app.get("/api/me", (req, res) => {
+  const { access_token, refresh_token } = req.query;
+
+  const options = {
+    url: "https://api.spotify.com/v1/me",
+    headers: { Authorization: "Bearer " + access_token },
+    json: true
+  };
+
+  request.get(options, (error, response, body) => {
+    if (body && "id" in body) {
+      res.redirect(`/user/${body.id}`);
+    } else {
+      res.redirect(`/error/auth_error`);
+    }
+    res.end();
+  });
 });
 
 app.get("/api/refresh_token", (req, res) => {
