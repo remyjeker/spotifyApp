@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
 import React, { Component } from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
 
@@ -9,18 +8,12 @@ import * as PATHS from '../../../routes';
 import '../layout.css';
 
 type Props = {
-  match: any,
-  location: any,
   history: any,
-  cookie: any,
   user: any,
   logout: any
 };
 
-// eslint-disable-next-line react/no-multi-comp
 class Content extends Component<Props> {
-  isAuthenticated: boolean = false;
-
   constructor(props: any) {
     super(props);
 
@@ -28,19 +21,18 @@ class Content extends Component<Props> {
 
     if (history != null) {
       history.listen((location, action) => {
-        console.log(action, location.pathname, location.state);
+        console.log(action, location.pathname);
       });
     }
   }
 
-  componentDidUpdate(prevProps: any) {
-    console.log('Content - componentDidUpdate', prevProps);
+  componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
+    console.log('Content - componentDidUpdate', prevProps, prevState, snapshot);
   }
 
   render() {
     const { user, logout } = this.props;
-
-    const isLoggedIn = user !== null;
+    const anonymous = user == null;
 
     const UserComponent = () => {
       if (user == null) return false;
@@ -64,7 +56,7 @@ class Content extends Component<Props> {
       );
     };
 
-    const authLink = !isLoggedIn ? (
+    const authLink = anonymous ? (
       <Link to={PATHS.LANDING_ROUTE}>
         <h5>Login</h5>
       </Link>
@@ -85,7 +77,10 @@ class Content extends Component<Props> {
           <Switch>
             <Route path="/user/:id" component={UserComponent} />
             <Route path="/error/:errorMsg" component={ErrorComponent} />
-            <Route path={PATHS.HOME_ROUTE} component={() => <h2>Home</h2>} />
+            <Route
+              path={PATHS.HOME_ROUTE}
+              component={() => <h2>Welcome!</h2>}
+            />
             <Route path={PATHS.LANDING_ROUTE} component={LandingPage} />
             <Route component={LandingPage} />
           </Switch>

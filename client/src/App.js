@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
@@ -18,6 +17,7 @@ type State = {
   user: any
 };
 
+const APP_NAME: string = 'Spotify Artists Search';
 const USER_KEY = 'spotify_app_user';
 
 class App extends Component<Props, State> {
@@ -29,8 +29,8 @@ class App extends Component<Props, State> {
     };
   }
 
-  componentDidUpdate(prevProps: any) {
-    console.log('App - componentDidUpdate', prevProps);
+  componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
+    console.log('App - componentDidUpdate', prevProps, prevState, snapshot);
   }
 
   getUser() {
@@ -45,19 +45,19 @@ class App extends Component<Props, State> {
   }
 
   logout = () => {
-    const { cookie } = this.props;
+    const { cookie, history } = this.props;
     cookie.remove(USER_KEY);
     this.setUser();
+    history.push('/');
   };
 
   render() {
-    const appName: string = 'Spotify Artists Search';
-    const { user } = this.state;
+    const { user: userState } = this.state;
 
     return (
       <div className="App isFullScreen">
-        <Header title={appName} />
-        <Content {...this.props} user={user} logout={this.logout} />
+        <Header title={APP_NAME} />
+        <Content {...this.props} user={userState} logout={this.logout} />
       </div>
     );
   }
