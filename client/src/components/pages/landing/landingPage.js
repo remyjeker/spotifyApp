@@ -15,10 +15,6 @@ class LandingPage extends Component<Props> {
     this.authService = new AuthService();
   }
 
-  componentDidUpdate(prevProps: any) {
-    console.log('LandingPage - componentDidUpdate', prevProps);
-  }
-
   // eslint-disable-next-line no-undef
   handleClick = (event: Event) => {
     event.preventDefault();

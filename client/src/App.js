@@ -17,7 +17,7 @@ type State = {
   user: any
 };
 
-const APP_NAME: string = 'Spotify Artists Search';
+const APP_NAME = 'Spotify Artists Search';
 const USER_KEY = 'spotify_app_user';
 
 class App extends Component<Props, State> {
@@ -30,7 +30,17 @@ class App extends Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
-    console.log('App - componentDidUpdate', prevProps, prevState, snapshot);
+    if (snapshot !== null) {
+      this.setUser();
+    }
+  }
+
+  getSnapshotBeforeUpdate(prevProps: any, prevState: any) {
+    const { user: currentUser } = this.state;
+    if (prevState.user !== null && currentUser == null) {
+      return prevState.user;
+    }
+    return null;
   }
 
   getUser() {
@@ -40,7 +50,7 @@ class App extends Component<Props, State> {
 
   setUser() {
     this.setState({
-      user: this.getUser()
+      user: this.getUser() || null
     });
   }
 

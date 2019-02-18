@@ -21,13 +21,9 @@ class Content extends Component<Props> {
 
     if (history != null) {
       history.listen((location, action) => {
-        console.log(action, location.pathname);
+        console.log('Router history action : ', action, location.pathname);
       });
     }
-  }
-
-  componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
-    console.log('Content - componentDidUpdate', prevProps, prevState, snapshot);
   }
 
   render() {
@@ -35,7 +31,7 @@ class Content extends Component<Props> {
     const anonymous = user == null;
 
     const UserComponent = () => {
-      if (user == null) return false;
+      if (user == null) return <h5>Unable to get user info</h5>;
 
       return (
         <div className="UserProfile">
@@ -75,14 +71,14 @@ class Content extends Component<Props> {
           {authLink}
           <hr />
           <Switch>
-            <Route path="/user/:id" component={UserComponent} />
-            <Route path="/error/:errorMsg" component={ErrorComponent} />
+            <Route path={PATHS.USER_ROUTE} component={UserComponent} />
+            <Route path={PATHS.ERROR_ROUTE} component={ErrorComponent} />
             <Route
               path={PATHS.HOME_ROUTE}
               component={() => <h2>Welcome!</h2>}
             />
             <Route path={PATHS.LANDING_ROUTE} component={LandingPage} />
-            <Route component={LandingPage} />
+            <Route path="/*" component={LandingPage} />
           </Switch>
         </div>
       </div>
