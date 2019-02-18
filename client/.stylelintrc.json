@@ -1,0 +1,26 @@
+{
+  "extends": "stylelint-config-airbnb",
+  "rules": {
+    "at-rule-no-unknown": null,
+    "block-closing-brace-newline-after": "always",
+    "block-closing-brace-newline-before": "always",
+    "declaration-block-no-duplicate-properties": true,
+    "declaration-block-no-shorthand-property-overrides": true,
+    "no-duplicate-at-import-rules": true,
+    "no-duplicate-selectors": true,
+    "no-extra-semicolons": true,
+    "number-leading-zero": null,
+    "order/order": ["custom-properties", "declarations"],
+    "order/properties-alphabetical-order": true,
+    "rule-empty-line-before": "always-multi-line",
+    "selector-max-id": 1,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["import", "export", "global"]
+      }
+    ],
+    "string-quotes": "double",
+    "unit-no-unknown": true
+  }
+}
