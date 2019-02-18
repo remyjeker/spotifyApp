@@ -1,9 +1,10 @@
+/* eslint-disable react/no-unused-prop-types */
 import React, { Component } from 'react';
 
+import AuthService from '../../../services/auth';
 import logo from '../../../img/spotify_logo.png';
 
 import './landingPage.css';
-import AuthService from '../../../services/auth';
 
 type Props = {};
 
@@ -12,6 +13,10 @@ class LandingPage extends Component<Props> {
     super(props);
 
     this.authService = new AuthService();
+  }
+
+  componentDidUpdate(prevProps: any) {
+    console.log('LandingPage - componentDidUpdate', prevProps);
   }
 
   // eslint-disable-next-line no-undef

@@ -15,12 +15,13 @@
     "request": "^2.88.0"
   },
   "scripts": {
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "server": "nodemon server.js",
+    "clean": "rm -rf client/build/ && rm -rf client/node_modules/ && rm client/package-lock.json && rm -rf node_modules/ && rm package-lock.json",
     "client": "cd client && npm run start",
-    "prepare-client": "cd client && npm install && npm run build",
-    "start": "npm run prepare-client && npm run server",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "initialize": "npm install && npm run prepare-client && npm run dev",
-    "clean": "rm -rf client/build/ && rm -rf client/node_modules/ && rm client/package-lock.json && rm -rf node_modules/ && rm package-lock.json"
+    "prepare-client": "cd client && npm install && npm run build",
+    "server": "nodemon server.js",
+    "start": "npm run prepare-client && npm run dev",
+    "sync-server": "npm run prepare-client && npm run server"
   }
 }

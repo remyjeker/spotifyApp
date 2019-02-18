@@ -9,17 +9,20 @@ export class AuthService {
       cache: 'default'
     };
 
-    window
-      .fetch('http://localhost:5000/api/login', requestInit)
-      .then(response => {
-        const { body } = response;
-        const reader = body.getReader();
+    window.fetch('http://localhost:5000/api/login', requestInit).then(
+      response => {
+        console.log(response);
 
-        reader.read().then(a => {
-          // eslint-disable-next-line no-console
-          console.log('Stream complete', a);
-        });
-      });
+        const { redirected, url } = response;
+
+        if (redirected && url) {
+          window.location.replace(url);
+        }
+      },
+      error => {
+        console.log('fetch error', error);
+      }
+    );
   };
 }
 

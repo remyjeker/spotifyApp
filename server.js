@@ -14,7 +14,7 @@ const userKey = "spotify_app_user";
 const serverPort = 5000;
 const appPort = 5001;
 
-const baseAppUri = "/#";
+const baseAppUri = "/app";
 
 const generateRandomString = length => {
   let text = "";
@@ -46,12 +46,11 @@ app
   .use(cors())
   .use(cookieParser());
 
-app.route("/user/:id").get((req, res) => {
-  const { params } = req;
-  res.redirect(200, `/user/${params.id}`);
+app.get("", (req, res) => {
+  res.redirect(baseAppUri);
 });
 
-app.get("/", (req, res) => {
+app.get(baseAppUri, (req, res) => {
   res.sendFile(path.join(__dirname, builtAppPath, "index.html"));
 });
 
@@ -122,10 +121,13 @@ app.get("/api/me", (req, res) => {
   };
 
   request.get(options, (error, response, body) => {
-    if (body && "id" in body) {
-      res.redirect(`/user/${body.id}`);
+    const { id } = body;
+    if (body && id) {
+      res.cookie(userKey, body);
+
+      res.redirect(`${baseAppUri}/user/${id}`);
     } else {
-      res.redirect(`/error/auth_error`);
+      res.redirect(`${baseAppUri}/error/auth_error`);
     }
     res.end();
   });
