@@ -1,0 +1,14 @@
+.SearchPage {
+  background-color: white;
+}
+
+.SearchPage__wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.SearchPage__searchInput {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 5px;
+}

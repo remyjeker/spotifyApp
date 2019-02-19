@@ -17,15 +17,29 @@
 }
 
 .AppHeader__title {
-  color: rgb(0, 182, 98);
+  color: white;
   float: right;
   height: 40px;
   line-height: 40px;
   text-transform: capitalize;
 }
 
-/* CONTENT */
+.AppContent__wrapper {
+  height: 100%;
+}
 
-/* .AppContent {} */
+.AppContent__navigation {
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  justify-content: center;
+  width: 100%;
+}
 
-/* .AppContent__wrapper {} */
+.AppContent__navigation a {
+  text-decoration: none;
+}
+
+.AppContent__navigation__items {
+  padding: 10px;
+}

@@ -12,7 +12,7 @@ it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
     <CookiesProvider>
-      <BrowserRouter basename="/app">
+      <BrowserRouter>
         <App cookie={testAppCookie} />
       </BrowserRouter>
     </CookiesProvider>,

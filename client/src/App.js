@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom';
 import Header from './components/layout/header';
 import Content from './components/layout/content';
 
+import * as PATHS from './routes';
+
 import './main.css';
 
 type Props = {
@@ -56,9 +58,11 @@ class App extends Component<Props, State> {
 
   logout = () => {
     const { cookie, history } = this.props;
+
     cookie.remove(USER_KEY);
     this.setUser();
-    history.push('/');
+
+    history.push(PATHS.LANDING_ROUTE);
   };
 
   render() {
