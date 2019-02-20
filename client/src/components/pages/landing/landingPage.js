@@ -26,7 +26,7 @@ class LandingPage extends Component<Props> {
 
   render() {
     return (
-      <div className="LandingPage">
+      <div className="AppPage LandingPage">
         <button
           className="LandingPage__loginButton"
           type="button"

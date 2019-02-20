@@ -27,13 +27,14 @@ class App extends Component<Props, State> {
     super(props);
 
     this.state = {
-      user: this.getUser()
+      user: this.getUser() || null,
     };
   }
 
   componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
+    console.log('App - componentDidUpdate', prevProps, prevState, snapshot);
     if (snapshot !== null) {
-      this.setUser();
+      this.setUser(null);
     }
   }
 
@@ -47,12 +48,12 @@ class App extends Component<Props, State> {
 
   getUser() {
     const { cookie } = this.props;
-    return cookie.get(USER_KEY) || null;
+    return cookie.get(USER_KEY);
   }
 
-  setUser() {
+  setUser(value) {
     this.setState({
-      user: this.getUser() || null
+      user: value || null
     });
   }
 
@@ -60,7 +61,8 @@ class App extends Component<Props, State> {
     const { cookie, history } = this.props;
 
     cookie.remove(USER_KEY);
-    this.setUser();
+
+    this.setUser(null);
 
     history.push(PATHS.LANDING_ROUTE);
   };

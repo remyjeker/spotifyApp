@@ -34,6 +34,7 @@ class Content extends Component<Props> {
 
   render() {
     const { user, logout } = this.props;
+
     const anonymous: boolean = user == null;
 
     const UserComponent = () => {
@@ -58,7 +59,7 @@ class Content extends Component<Props> {
       );
     };
 
-    const GuardedComponent = () => {
+    const GuardedSearch = () => {
       if (anonymous) {
         return (
           <div className="LoginRedirect">
@@ -70,36 +71,45 @@ class Content extends Component<Props> {
           </div>
         );
       }
+
       return <SearchPage {...this.props} />;
     };
 
-    const navItemsClassName = 'AppContent__navigation__items';
-    const authLink = anonymous ? (
-      <Link to={PATHS.LANDING_ROUTE}>
-        <div className={navItemsClassName}>Login</div>
+    const navClassName = 'AppContent__navigation';
+    const navItemsClassName = `${navClassName}__items`;
+
+    const searchLink = (
+      <Link to={PATHS.SEARCH_ROUTE}>
+        <div className={navItemsClassName}>Search Artists</div>
       </Link>
+    );
+
+    const navigationLinks = anonymous ? (
+      <div className={navClassName}>
+        <Link to={PATHS.LANDING_ROUTE}>
+          <div className={navItemsClassName}>Login</div>
+        </Link>
+        {searchLink}
+      </div>
     ) : (
-      <Link to={PATHS.LANDING_ROUTE} onClick={logout}>
-        <div className={navItemsClassName}>Logout</div>
-      </Link>
+      <div className={navClassName}>
+        {searchLink}
+        <Link to={PATHS.LANDING_ROUTE} onClick={logout}>
+          <div className={navItemsClassName}>Logout</div>
+        </Link>
+      </div>
     );
 
     return (
       <div className="AppContent remainingHeight">
         <div className="AppContent__wrapper">
-          <div className="AppContent__navigation">
-            <Link to={PATHS.SEARCH_ROUTE}>
-              <div className={navItemsClassName}>Search Artists</div>
-            </Link>
-            {authLink}
-          </div>
-          <hr />
+          {navigationLinks}
           <Switch>
             <Route path={PATHS.USER_ROUTE} component={UserComponent} />
             <Route path={PATHS.ERROR_ROUTE} component={ErrorComponent} />
-            <Route path={PATHS.SEARCH_ROUTE} component={GuardedComponent} />
+            <Route path={PATHS.SEARCH_ROUTE} component={GuardedSearch} />
             <Route path={PATHS.LANDING_ROUTE} component={LandingPage} />
-            <Route path="/*" component={LandingPage} />
+            <Route path="/*" component={GuardedSearch} />
           </Switch>
         </div>
       </div>

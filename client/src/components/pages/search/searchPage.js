@@ -1,45 +1,65 @@
 import React, { Component } from 'react';
 
+import AuthService from '../../../services/auth';
+import ArtistsPanel from '../../panel/artists';
+
 import './searchPage.css';
 
 type Props = {};
 
-class SearchPage extends Component<Props> {
+type State = {
+  results: Array<any>;
+}
+
+class SearchPage extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
+
+    this.apiService = new AuthService();
+
+    this.state = {
+      results: [],
+    };
 
     console.log('SearchPage - props', props);
   }
 
-  handleChange = (event: any) => {
-    event.preventDefault();
-
-    const { value } = event.target;
-
-    console.log('changes', value);
-  };
-
   handleKeyPress = (event: any) => {
-    const { key } = event;
-
+    const { key, target } = event;
     if (key === 'Enter') {
-      console.log('search', event);
+      const { value } = target;
+
+      this.apiService.search(value).then(data => {
+        const { artists } = data;
+        const { items } = artists;
+
+        this.setState({
+          results: items,
+        });
+      });
     }
   };
 
+  apiService: AuthService;
+
   render() {
-    const inputPlaceholder = 'Search for an artist';
+    const inputPlaceholder = 'Search for an artist...';
+    const { results } = this.state;
+    const resultsLength = results.length;
 
     return (
-      <div className="SearchPage">
+      <div className="AppPage SearchPage">
         <div className="SearchPage__wrapper">
           <input
             type="text"
             className="SearchPage__searchInput"
-            onChange={this.handleChange}
             onKeyPress={this.handleKeyPress}
             placeholder={inputPlaceholder}
           />
+
+          <ArtistsPanel artists={results} />
+
+          <p>Results : {resultsLength}</p>
         </div>
       </div>
     );

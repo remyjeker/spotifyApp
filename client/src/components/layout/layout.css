@@ -1,5 +1,3 @@
-/* HEADER */
-
 .AppHeader {
   background-color: var(--main-header-color);
   height: 40px;
@@ -29,9 +27,9 @@
 }
 
 .AppContent__navigation {
+  border-bottom: 1px solid var(--main-header-color);
   display: flex;
   flex-direction: row;
-  height: 30px;
   justify-content: center;
   width: 100%;
 }
@@ -40,6 +38,15 @@
   text-decoration: none;
 }
 
+.AppContent__navigation a:hover {
+  background-color: rgb(230, 230, 230);
+}
+
 .AppContent__navigation__items {
   padding: 10px;
+}
+
+.AppPage {
+  background-color: white;
+  padding: 20px;
 }
