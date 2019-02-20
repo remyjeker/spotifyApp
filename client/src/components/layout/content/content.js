@@ -1,26 +1,21 @@
-/* eslint-disable react/no-unused-prop-types */
 import React, { Component } from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
 
 import LandingPage from '../../pages/landing';
+import SearchPage from '../../pages/search';
+import AlbumPanel from '../../panel/albums';
 
 import * as PATHS from '../../../routes';
 
 import '../layout.css';
 
 type Props = {
-  match: any,
-  location: any,
   history: any,
-  cookie: any,
   user: any,
   logout: any
 };
 
-// eslint-disable-next-line react/no-multi-comp
 class Content extends Component<Props> {
-  isAuthenticated: boolean = false;
-
   constructor(props: any) {
     super(props);
 
@@ -28,22 +23,23 @@ class Content extends Component<Props> {
 
     if (history != null) {
       history.listen((location, action) => {
-        console.log(action, location.pathname, location.state);
+        // eslint-disable-next-line no-console
+        console.log('Router history action : ', action, location.pathname);
       });
     }
   }
 
-  componentDidUpdate(prevProps: any) {
-    console.log('Content - componentDidUpdate', prevProps);
+  componentDidUpdate(prevProps: any, prevState: any) {
+    console.log('Content - componentDidUpdate', prevProps, prevState);
   }
 
   render() {
     const { user, logout } = this.props;
 
-    const isLoggedIn = user !== null;
+    const anonymous: boolean = user == null;
 
     const UserComponent = () => {
-      if (user == null) return false;
+      if (user == null) return <h5>Unable to get user info</h5>;
 
       return (
         <div className="UserProfile">
@@ -64,30 +60,58 @@ class Content extends Component<Props> {
       );
     };
 
-    const authLink = !isLoggedIn ? (
-      <Link to={PATHS.LANDING_ROUTE}>
-        <h5>Login</h5>
+    const GuardedSearch = () => {
+      if (anonymous) {
+        return (
+          <div className="LoginRedirect">
+            <h2>Welcome anonymous!</h2>
+            <h4>You must be logged in to search artists!</h4>
+            <h4>
+              Please, sign in <Link to={PATHS.LANDING_ROUTE}>here</Link>
+            </h4>
+          </div>
+        );
+      }
+
+      return <SearchPage {...this.props} />;
+    };
+
+    const navClassName = 'AppContent__navigation';
+    const navItemsClassName = `${navClassName}__items`;
+
+    const searchLink = (
+      <Link to={PATHS.SEARCH_ROUTE}>
+        <div className={navItemsClassName}>Search Artists</div>
       </Link>
+    );
+
+    const navigationLinks = anonymous ? (
+      <div className={navClassName}>
+        <Link to={PATHS.LANDING_ROUTE}>
+          <div className={navItemsClassName}>Login</div>
+        </Link>
+        {searchLink}
+      </div>
     ) : (
-      <Link to={PATHS.HOME_ROUTE} onClick={logout}>
-        <h5>Logout</h5>
-      </Link>
+      <div className={navClassName}>
+        {searchLink}
+        <Link to={PATHS.LANDING_ROUTE} onClick={logout}>
+          <div className={navItemsClassName}>Logout</div>
+        </Link>
+      </div>
     );
 
     return (
       <div className="AppContent remainingHeight">
         <div className="AppContent__wrapper">
-          <Link to={PATHS.HOME_ROUTE}>
-            <h5>Home</h5>
-          </Link>
-          {authLink}
-          <hr />
+          {navigationLinks}
           <Switch>
-            <Route path="/user/:id" component={UserComponent} />
-            <Route path="/error/:errorMsg" component={ErrorComponent} />
-            <Route path={PATHS.HOME_ROUTE} component={() => <h2>Home</h2>} />
+            <Route path={PATHS.USER_ROUTE} component={UserComponent} />
+            <Route path={PATHS.ERROR_ROUTE} component={ErrorComponent} />
+            <Route path={PATHS.SEARCH_ROUTE} component={GuardedSearch} />
+            <Route path={PATHS.ARTIST_ALBUMS_ROUTE} component={AlbumPanel} />
             <Route path={PATHS.LANDING_ROUTE} component={LandingPage} />
-            <Route component={LandingPage} />
+            <Route path="/*" component={GuardedSearch} />
           </Switch>
         </div>
       </div>

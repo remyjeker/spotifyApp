@@ -1,9 +1,10 @@
-/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import Header from './components/layout/header';
 import Content from './components/layout/content';
+
+import * as PATHS from './routes';
 
 import './main.css';
 
@@ -18,6 +19,7 @@ type State = {
   user: any
 };
 
+const APP_NAME = 'Spotify Artists Search';
 const USER_KEY = 'spotify_app_user';
 
 class App extends Component<Props, State> {
@@ -25,39 +27,53 @@ class App extends Component<Props, State> {
     super(props);
 
     this.state = {
-      user: this.getUser()
+      user: this.getUser() || null,
     };
   }
 
-  componentDidUpdate(prevProps: any) {
-    console.log('App - componentDidUpdate', prevProps);
+  componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
+    console.log('App - componentDidUpdate', prevProps, prevState, snapshot);
+    if (snapshot !== null) {
+      this.setUser(null);
+    }
+  }
+
+  getSnapshotBeforeUpdate(prevProps: any, prevState: any) {
+    const { user: currentUser } = this.state;
+    if (prevState.user !== null && currentUser == null) {
+      return prevState.user;
+    }
+    return null;
   }
 
   getUser() {
     const { cookie } = this.props;
-    return cookie.get(USER_KEY) || null;
+    return cookie.get(USER_KEY);
   }
 
-  setUser() {
+  setUser(value) {
     this.setState({
-      user: this.getUser()
+      user: value || null
     });
   }
 
   logout = () => {
-    const { cookie } = this.props;
+    const { cookie, history } = this.props;
+
     cookie.remove(USER_KEY);
-    this.setUser();
+
+    this.setUser(null);
+
+    history.push(PATHS.LANDING_ROUTE);
   };
 
   render() {
-    const appName: string = 'Spotify Artists Search';
-    const { user } = this.state;
+    const { user: userState } = this.state;
 
     return (
       <div className="App isFullScreen">
-        <Header title={appName} />
-        <Content {...this.props} user={user} logout={this.logout} />
+        <Header title={APP_NAME} />
+        <Content {...this.props} user={userState} logout={this.logout} />
       </div>
     );
   }
