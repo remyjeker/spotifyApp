@@ -8,8 +8,14 @@ const request = require("request");
 const http = require("http");
 
 const builtAppPath = "client/build";
+
 const stateKey = "spotify_auth_state";
 const userKey = "spotify_app_user";
+
+const accessTokenKey = "spotify_app_access_token";
+const refreshTokenKey = "spotify_app_refresh_token";
+
+const resulstLimit = 20;
 
 const serverPort = 5000;
 const appPort = 5001;
@@ -34,6 +40,12 @@ const generateHeadersBasicAuthorization = () => {
       new Buffer(
         process.env.SP_API_CLIENT_ID + ":" + process.env.SP_API_CLIENT_SECRET
       ).toString("base64")
+  };
+};
+
+const generateHeadersBearerAuthorization = accessToken => {
+  return {
+    Authorization: "Bearer " + accessToken
   };
 };
 
@@ -122,8 +134,11 @@ app.get("/api/me", (req, res) => {
 
   request.get(options, (error, response, body) => {
     const { id } = body;
+
     if (body && id) {
       res.cookie(userKey, body);
+      res.cookie(accessTokenKey, access_token);
+      res.cookie(refreshTokenKey, refresh_token);
 
       res.redirect(`${baseAppUri}/user/${id}`);
     } else {
@@ -148,10 +163,61 @@ app.get("/api/refresh_token", (req, res) => {
   request.post(authOptions, (error, response, body) => {
     if (!error && response.statusCode === 200) {
       const access_token = body.access_token;
-      res.send({
-        access_token: access_token
-      });
+
+      res.cookie(accessTokenKey, access_token);
+
+      res.redirect(`${baseAppUri}/error/refresh_browser`);
     }
+  });
+});
+
+app.get("/api/search", (req, res) => {
+  const storedAccessToken = req.cookies ? req.cookies[accessTokenKey] : null;
+  const storedRefreshToken = req.cookies ? req.cookies[refreshTokenKey] : null;
+
+  if (storedAccessToken === null) {
+    res.redirect(`${baseAppUri}/error/access_token_missing`);
+  }
+
+  const safeKeyword = String(req.query.q).replace("", "%20");
+  const searchType = req.query.type;
+
+  const reqOptions = {
+    url:
+      "https://api.spotify.com/v1/search?q=" +
+      safeKeyword +
+      "&type=" +
+      searchType +
+      "&limit=" +
+      resulstLimit,
+    headers: generateHeadersBearerAuthorization(storedAccessToken),
+    json: true
+  };
+
+  request.get(reqOptions, (error, response, body) => {
+    if (!error && response.statusCode == 200) {
+      res.send(body);
+    } else {
+      const { error } = body;
+      const { message } = error;
+
+      if (message == "The access token expired") {
+        if (storedRefreshToken === null) {
+          res.redirect(`${baseAppUri}/error/refresh_token_missing`);
+        }
+
+        res.redirect(
+          "/api/refresh_token?" +
+            querystring.stringify({
+              access_token: storedAccessToken,
+              refresh_token: storedRefreshToken
+            })
+        );
+      } else {
+        res.redirect(`${baseAppUri}/error/${message}`);
+      }
+    }
+    res.end();
   });
 });
 

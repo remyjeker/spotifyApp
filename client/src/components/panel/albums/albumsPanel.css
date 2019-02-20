@@ -1,0 +1,50 @@
+.AlbumsPanel {
+  margin: 0px auto;
+}
+
+.AlbumsPanel__list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.AlbumsPanel__thumbnail {
+  border: 1px solid grey;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  min-height: 200px;
+  overflow: hidden;
+  width: 150px;
+}
+
+.AlbumsPanel__thumbnail__image {
+  max-height: 150px;
+  width: 150px;
+}
+
+.AlbumsPanel__thumbnail__title {
+  font-weight: 500;
+  margin: 0 10px;
+  text-align: left;
+}
+
+.AlbumsPanel__thumbnail__artist {
+  color: lightgrey;
+  float: left;
+  font-size: 14px;
+  margin: 0 0 0 10px;
+}
+
+.AlbumsPanel__thumbnail__preview {
+  background: lightgrey;
+  border-bottom: 1px solid grey;
+  border-top: 1px solid grey;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: 30px;
+  line-height: 30px;
+  margin-bottom: -1px;
+  width: 100%;
+}

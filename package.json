@@ -22,6 +22,6 @@
     "prepare-client": "cd client && npm install && npm run build",
     "server": "nodemon server.js",
     "start": "npm run prepare-client && npm run dev",
-    "sync-server": "npm run prepare-client && npm run server"
+    "sync-server": "npm run clean && npm run initialize"
   }
 }

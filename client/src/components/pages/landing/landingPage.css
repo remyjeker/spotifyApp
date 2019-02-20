@@ -1,10 +1,5 @@
-.LandingPage {
-  background-color: white;
-}
-
 .LandingPage button {
-  /* margin: 50vh auto; */
-  margin: 100px auto;
+  margin: 40vh auto;
   width: 50vw;
 }
 
