@@ -8,10 +8,14 @@ const request = require("request");
 const http = require("http");
 
 const builtAppPath = "client/build";
+
 const stateKey = "spotify_auth_state";
 const userKey = "spotify_app_user";
+
 const accessTokenKey = "spotify_app_access_token";
 const refreshTokenKey = "spotify_app_refresh_token";
+
+const resulstLimit = 20;
 
 const serverPort = 5000;
 const appPort = 5001;
@@ -39,10 +43,9 @@ const generateHeadersBasicAuthorization = () => {
   };
 };
 
-const generateHeadersBearerAuthorization = (accessToken) => {
+const generateHeadersBearerAuthorization = accessToken => {
   return {
-    Authorization:
-      "Bearer " + accessToken,
+    Authorization: "Bearer " + accessToken
   };
 };
 
@@ -162,7 +165,7 @@ app.get("/api/refresh_token", (req, res) => {
       const access_token = body.access_token;
 
       res.cookie(accessTokenKey, access_token);
-      
+
       res.redirect(`${baseAppUri}/error/refresh_browser`);
     }
   });
@@ -177,9 +180,16 @@ app.get("/api/search", (req, res) => {
   }
 
   const safeKeyword = String(req.query.q).replace("", "%20");
+  const searchType = req.query.type;
 
   const reqOptions = {
-    url: "https://api.spotify.com/v1/search?q=" + safeKeyword + "&type=artist&limit=10",
+    url:
+      "https://api.spotify.com/v1/search?q=" +
+      safeKeyword +
+      "&type=" +
+      searchType +
+      "&limit=" +
+      resulstLimit,
     headers: generateHeadersBearerAuthorization(storedAccessToken),
     json: true
   };
@@ -191,8 +201,7 @@ app.get("/api/search", (req, res) => {
       const { error } = body;
       const { message } = error;
 
-      if (message == 'The access token expired') {
-
+      if (message == "The access token expired") {
         if (storedRefreshToken === null) {
           res.redirect(`${baseAppUri}/error/refresh_token_missing`);
         }

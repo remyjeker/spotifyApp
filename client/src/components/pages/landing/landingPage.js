@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unused-prop-types */
 import React, { Component } from 'react';
 
-import AuthService from '../../../services/auth';
+import ApiService from '../../../services/api';
 import logo from '../../../img/spotify_logo.png';
 
 import './landingPage.css';
@@ -12,17 +12,17 @@ class LandingPage extends Component<Props> {
   constructor(props: Props) {
     super(props);
 
-    this.authService = new AuthService();
+    this.apiService = new ApiService();
   }
 
   // eslint-disable-next-line no-undef
   handleClick = (event: Event) => {
     event.preventDefault();
 
-    this.authService.login();
+    this.apiService.login();
   };
 
-  authService: AuthService;
+  apiService: ApiService;
 
   render() {
     return (

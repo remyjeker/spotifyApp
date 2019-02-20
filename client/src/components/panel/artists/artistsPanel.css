@@ -9,6 +9,11 @@
   justify-content: space-between;
 }
 
+.ArtistsPanel__list a {
+  color: black;
+  text-decoration: none;
+}
+
 .ArtistsPanel__thumbnail {
   border: 1px solid grey;
   margin-bottom: 20px;
@@ -25,13 +30,14 @@
 
 .ArtistsPanel__thumbnail__title {
   font-weight: 500;
-  margin: 0 0 0 10px;
+  margin: 0 10px;
   text-align: left;
+  text-decoration: none;
 }
 
 .ArtistsPanel__thumbnail__followers {
   color: lightgrey;
   float: left;
   font-size: 14px;
-  margin: 0 0 0 10px;
-} 
+  margin: 0 10px;
+}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import AuthService from '../../../services/auth';
+import ApiService from '../../../services/api';
 import ArtistsPanel from '../../panel/artists';
 
 import './searchPage.css';
@@ -8,17 +8,19 @@ import './searchPage.css';
 type Props = {};
 
 type State = {
-  results: Array<any>;
-}
+  results: Array<any>
+};
 
 class SearchPage extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.apiService = new AuthService();
+    this.apiService = new ApiService();
+
+    this.searchType = 'artist';
 
     this.state = {
-      results: [],
+      results: []
     };
 
     console.log('SearchPage - props', props);
@@ -29,18 +31,24 @@ class SearchPage extends Component<Props, State> {
     if (key === 'Enter') {
       const { value } = target;
 
-      this.apiService.search(value).then(data => {
-        const { artists } = data;
-        const { items } = artists;
-
-        this.setState({
-          results: items,
-        });
-      });
+      this.fetchArtists(value);
     }
   };
 
-  apiService: AuthService;
+  fetchArtists = (keywork: string) => {
+    this.apiService.search(keywork, this.searchType).then(data => {
+      const { artists } = data;
+      const { items } = artists;
+
+      this.setState({
+        results: items
+      });
+    });
+  };
+
+  apiService: ApiService;
+
+  searchType: string;
 
   render() {
     const inputPlaceholder = 'Search for an artist...';

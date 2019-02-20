@@ -3,6 +3,7 @@ import { Route, Link, Switch } from 'react-router-dom';
 
 import LandingPage from '../../pages/landing';
 import SearchPage from '../../pages/search';
+import AlbumPanel from '../../panel/albums';
 
 import * as PATHS from '../../../routes';
 
@@ -108,6 +109,7 @@ class Content extends Component<Props> {
             <Route path={PATHS.USER_ROUTE} component={UserComponent} />
             <Route path={PATHS.ERROR_ROUTE} component={ErrorComponent} />
             <Route path={PATHS.SEARCH_ROUTE} component={GuardedSearch} />
+            <Route path={PATHS.ARTIST_ALBUMS_ROUTE} component={AlbumPanel} />
             <Route path={PATHS.LANDING_ROUTE} component={LandingPage} />
             <Route path="/*" component={GuardedSearch} />
           </Switch>

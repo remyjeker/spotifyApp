@@ -1,11 +1,10 @@
-export class AuthService {
-
+export class ApiService {
   baseUrl: string;
 
   requestInit: any;
 
-  // Should get process.env.PORT
-  constructor(baseUrl: string = 'http://localhost:3000') {
+  // Should get process.env.PORT (to allow 3000)
+  constructor(baseUrl: string = 'http://localhost:5000') {
     this.baseUrl = baseUrl;
 
     this.requestInit = {
@@ -23,9 +22,6 @@ export class AuthService {
 
     window.fetch(loginUrl, this.requestInit).then(
       response => {
-        // eslint-disable-next-line no-console
-        console.log(response);
-
         const { redirected, url } = response;
 
         if (redirected && url) {
@@ -41,8 +37,13 @@ export class AuthService {
     );
   };
 
-  search = (keyword: string) => {
-    const searchUrl = this.baseUrl.concat('/api/search?q=', keyword);
+  search = (keyword: string, type: string) => {
+    const searchUrl = this.baseUrl.concat(
+      '/api/search?q=',
+      keyword,
+      '&type=',
+      type
+    );
 
     return window.fetch(searchUrl, this.requestInit).then(response => {
       if (response.status !== 200) {
@@ -54,4 +55,4 @@ export class AuthService {
   };
 }
 
-export default AuthService;
+export default ApiService;
