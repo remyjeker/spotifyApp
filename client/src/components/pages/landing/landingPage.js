@@ -1,36 +1,30 @@
-/* eslint-disable react/no-unused-prop-types */
 import React, { Component } from 'react';
 
-import ApiService from '../../../services/api';
 import logo from '../../../img/spotify_logo.png';
 
 import './landingPage.css';
 
-type Props = {};
+type Props = {
+  login: () => void
+};
 
 class LandingPage extends Component<Props> {
-  constructor(props: Props) {
-    super(props);
-
-    this.apiService = new ApiService();
-  }
-
-  // eslint-disable-next-line no-undef
-  handleClick = (event: Event) => {
-    event.preventDefault();
-
-    this.apiService.login();
-  };
-
-  apiService: ApiService;
-
   render() {
+    // eslint-disable-next-line no-undef
+    const handleClick = (event: Event) => {
+      event.preventDefault();
+
+      const { login } = this.props;
+
+      login();
+    };
+
     return (
       <div className="AppPage LandingPage">
         <button
           className="LandingPage__loginButton"
           type="button"
-          onClick={this.handleClick}
+          onClick={handleClick}
         >
           <div className="LandingPage__loginButton__wrapper">
             <div className="LandingPage__loginButton__title">

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import type { Match } from 'react-router-dom';
 
 import ApiService from '../../../services/api';
 
@@ -7,7 +8,8 @@ import defaultCoverAlbum from '../../../img/default_album.png';
 import './albumsPanel.css';
 
 type Props = {
-  match: any
+  api: ApiService,
+  match: Match
 };
 
 type State = {
@@ -20,25 +22,24 @@ class AlbumsPanel extends Component<Props, State> {
   constructor(props: any) {
     super(props);
 
-    console.log('AlbumsPanel - props', props);
-
-    this.apiService = new ApiService();
-
     this.searchType = 'album';
 
     this.state = {
       albums: []
     };
 
+    // eslint-disable-next-line no-console
+    console.log('AlbumsPanel - props', props);
+
     this.fetchAlbums();
   }
 
   fetchAlbums = () => {
-    const { match } = this.props;
+    const { api, match } = this.props;
     const { params } = match;
-    const { name } = params;
+    const { name: artistName } = params;
 
-    this.apiService.search(name, this.searchType).then(data => {
+    api.search(artistName, this.searchType).then(data => {
       const { albums } = data;
       const { items } = albums;
 
@@ -55,8 +56,6 @@ class AlbumsPanel extends Component<Props, State> {
   handleClick = (spotifyUrl: string) => {
     this.showOnSpotify(spotifyUrl);
   };
-
-  apiService: ApiService;
 
   searchType: string;
 

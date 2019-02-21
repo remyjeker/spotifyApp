@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/react-router": "^4.4.4",
     "axios": "^0.18.0",
     "flow-bin": "^0.92.1",
     "history": "^4.7.2",

@@ -11,7 +11,6 @@ const builtAppPath = "client/build";
 
 const stateKey = "spotify_auth_state";
 const userKey = "spotify_app_user";
-
 const accessTokenKey = "spotify_app_access_token";
 const refreshTokenKey = "spotify_app_refresh_token";
 
