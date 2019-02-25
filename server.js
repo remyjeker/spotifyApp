@@ -14,6 +14,26 @@ const indexFile = "index.html";
 const resulstLimit = 20;
 const serverPort = 5000;
 
+dotenv.load();
+
+const {
+  APP_MODE,
+  USER_COOKIE_KEY,
+  STATE_COOKIE_KEY,
+  ACCESS_TOKEN_COOKIE_KEY,
+  REFRESH_TOKEN_COOKIE_KEY,
+  SP_API_CLIENT_ID,
+  SP_API_CLIENT_SECRET,
+  SP_API_REDIRECT_URI_DEV,
+  SP_API_REDIRECT_URI_PROD
+} = process.env;
+
+const DEV_MODE = APP_MODE === "development";
+
+const SP_API_REDIRECT_URI = DEV_MODE
+  ? SP_API_REDIRECT_URI_DEV
+  : SP_API_REDIRECT_URI_PROD;
+
 const generateRandomString = length => {
   let text = "";
   const possible =
@@ -41,32 +61,12 @@ const generateHeadersBearerAuthorization = accessToken => {
   };
 };
 
-dotenv.load();
-
-const {
-  APP_MODE,
-  USER_COOKIE_KEY,
-  STATE_COOKIE_KEY,
-  ACCESS_TOKEN_COOKIE_KEY,
-  REFRESH_TOKEN_COOKIE_KEY,
-  SP_API_CLIENT_ID,
-  SP_API_CLIENT_SECRET,
-  SP_API_REDIRECT_URI
-} = process.env;
-
-const DEV_MODE = APP_MODE === "development";
-
 const app = express();
 
 app
   .use(express.static(appBuildPath))
   .use(cors())
   .use(cookieParser());
-
-app.get("", (req, res) => {
-  if (DEV_MODE) res.sendFile(path.join(__dirname, appDevServerPath, indexFile));
-  else res.sendFile(path.join(__dirname, appbBuildPath, indexFile));
-});
 
 app.get("/api/login", (req, res) => {
   const state = generateRandomString(16);
@@ -228,6 +228,24 @@ app.get("/api/search", (req, res) => {
   });
 });
 
+app.get("*", (req, res) => {
+  if (DEV_MODE) {
+    res.sendFile(path.join(__dirname, appDevServerPath, indexFile));
+  } else {
+    res.sendFile(path.join(__dirname, appBuildPath, indexFile));
+  }
+});
+
+const logBuildingStatus = () => {
+  console.log("Please open your browser at 'http://localhost:5000'");
+};
+
 app.listen(serverPort, () => {
-  console.log(`Web Server listening on port : ${serverPort}`);
+  console.log(
+    `Web Server listening on port : ${serverPort} (pid: ${process.pid})`
+  );
+
+  if (!DEV_MODE) {
+    setTimeout(logBuildingStatus, 10000);
+  }
 });
