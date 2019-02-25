@@ -11,15 +11,7 @@ import * as PATHS from './routes';
 
 import './index.css';
 
-// TO REMOVE
-console.log(process.env);
-
-const { NODE_ENV } = process.env;
-const baseUri =
-  NODE_ENV === 'development'
-    ? 'http://localhost:3000'
-    : 'http://localhost:5000';
-
+const baseUri = 'http://localhost:5000';
 const apiService = new ApiService(baseUri);
 const appCookie = new Cookies();
 const root = document.getElementById('root');

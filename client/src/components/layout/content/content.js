@@ -33,15 +33,18 @@ class Content extends Component<Props> {
     if (history != null) {
       history.listen((location, action) => {
         // eslint-disable-next-line no-console
-        console.log('Router history action : ', action, location.pathname);
+        console.log(
+          'Router history action : ',
+          action,
+          'to : ',
+          location.pathname
+        );
       });
     }
-
-    console.log('Content - props', props);
   }
 
   render() {
-    const { user, login, logout } = this.props;
+    const { api, user, login, logout } = this.props;
 
     const anonymous: boolean = user == null;
 
@@ -71,7 +74,7 @@ class Content extends Component<Props> {
       );
     };
 
-    const GuardTemplate = (
+    const GuardTemplate = () => (
       <div className="LoginRedirect">
         <h2>Welcome anonymous!</h2>
         <h4>You must be logged in to search artists!</h4>
@@ -81,17 +84,15 @@ class Content extends Component<Props> {
       </div>
     );
 
-    const GuardedSearch = () => {
-      if (anonymous) return GuardTemplate;
-
-      return <SearchPage {...this.props} />;
-    };
-
-    const GuardedAlbumsPanel = () => {
-      if (anonymous) return GuardTemplate;
-
-      return <AlbumPanel {...this.props} />;
-    };
+    // eslint-disable-next-line no-shadow
+    const PrivateRoute = ({ component: Component, ...routeProps }) => (
+      <Route
+        {...routeProps}
+        render={props =>
+          anonymous ? <GuardTemplate /> : <Component {...props} api={api} />
+        }
+      />
+    );
 
     const ParameterizedLandingPage = () => <LandingPage login={login} />;
 
@@ -127,16 +128,16 @@ class Content extends Component<Props> {
           <Switch>
             <Route path={PATHS.USER_ROUTE} component={UserComponent} />
             <Route path={PATHS.ERROR_ROUTE} component={ErrorComponent} />
-            <Route path={PATHS.SEARCH_ROUTE} component={GuardedSearch} />
-            <Route
+            <PrivateRoute path={PATHS.SEARCH_ROUTE} component={SearchPage} />
+            <PrivateRoute
               path={PATHS.ARTIST_ALBUMS_ROUTE}
-              component={GuardedAlbumsPanel}
+              component={AlbumPanel}
             />
             <Route
               path={PATHS.LANDING_ROUTE}
               component={ParameterizedLandingPage}
             />
-            <Route path="/*" component={GuardedSearch} />
+            <PrivateRoute path="/*" component={SearchPage} />
           </Switch>
         </div>
       </div>

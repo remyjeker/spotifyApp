@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import type { Match } from 'react-router-dom';
 
 import ApiService from '../../../services/api';
 
@@ -7,9 +6,16 @@ import defaultCoverAlbum from '../../../img/default_album.png';
 
 import './albumsPanel.css';
 
+type CustomMatch = {
+  params: any,
+  isExact: boolean,
+  path: string,
+  url: string
+};
+
 type Props = {
   api: ApiService,
-  match: Match
+  match: CustomMatch
 };
 
 type State = {
@@ -19,7 +25,7 @@ type State = {
 const noop = () => {};
 
 class AlbumsPanel extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
 
     this.searchType = 'album';
@@ -28,16 +34,18 @@ class AlbumsPanel extends Component<Props, State> {
       albums: []
     };
 
+    const { match } = this.props;
+    const { params } = match;
+    const { name } = params;
+
+    this.fetchAlbums(name);
+
     // eslint-disable-next-line no-console
     console.log('AlbumsPanel - props', props);
-
-    this.fetchAlbums();
   }
 
-  fetchAlbums = () => {
-    const { api, match } = this.props;
-    const { params } = match;
-    const { name: artistName } = params;
+  fetchAlbums = (artistName: string) => {
+    const { api } = this.props;
 
     api.search(artistName, this.searchType).then(data => {
       const { albums } = data;

@@ -8,8 +8,6 @@ import ApiService from './services/api';
 import Header from './components/layout/header';
 import Content from './components/layout/content';
 
-import * as PATHS from './routes';
-
 import './main.css';
 
 type Props = {
@@ -37,8 +35,6 @@ class App extends Component<Props, State> {
     this.state = {
       user: this.getUser() || null
     };
-
-    console.log('App - props', props);
   }
 
   componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
@@ -75,15 +71,13 @@ class App extends Component<Props, State> {
   };
 
   logout = () => {
-    const { cookie, history } = this.props;
+    const { cookie } = this.props;
 
     cookie.remove(USER_COOKIE_KEY);
     cookie.remove(ACCESS_TOKEN_COOKIE_KEY);
     cookie.remove(REFRESH_TOKEN_COOKIE_KEY);
 
     this.setUser(null);
-
-    history.push(PATHS.LANDING_ROUTE);
   };
 
   render() {
