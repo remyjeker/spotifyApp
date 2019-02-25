@@ -7,7 +7,10 @@ const querystring = require("querystring");
 const request = require("request");
 
 const baseAppUri = "/app";
-const builtAppPath = "client/build";
+const appBuildPath = "client/build";
+const appDevServerPath = "client/public";
+const indexFile = "index.html";
+
 const resulstLimit = 20;
 const serverPort = 5000;
 
@@ -41,6 +44,7 @@ const generateHeadersBearerAuthorization = accessToken => {
 dotenv.load();
 
 const {
+  APP_MODE,
   USER_COOKIE_KEY,
   STATE_COOKIE_KEY,
   ACCESS_TOKEN_COOKIE_KEY,
@@ -50,19 +54,18 @@ const {
   SP_API_REDIRECT_URI
 } = process.env;
 
+const DEV_MODE = APP_MODE === "development";
+
 const app = express();
 
 app
-  .use(express.static(builtAppPath))
+  .use(express.static(appBuildPath))
   .use(cors())
   .use(cookieParser());
 
 app.get("", (req, res) => {
-  res.redirect(baseAppUri);
-});
-
-app.get(baseAppUri, (req, res) => {
-  res.sendFile(path.join(__dirname, builtAppPath, "index.html"));
+  if (DEV_MODE) res.sendFile(path.join(__dirname, appDevServerPath, indexFile));
+  else res.sendFile(path.join(__dirname, appbBuildPath, indexFile));
 });
 
 app.get("/api/login", (req, res) => {

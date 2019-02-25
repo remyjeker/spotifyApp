@@ -19,11 +19,12 @@
     "clean": "rm -rf client/build/ && rm -rf client/node_modules/ && rm client/package-lock.json && rm -rf node_modules/ && rm package-lock.json",
     "client": "cd client && npm run build",
     "dev-client": "cd client && npm run start",
-    "dev-server": "nodemon server.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run dev-server\" \"npm run dev-client\"",
+    "dev-server": "APP_MODE=development nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run dev-client\" \"npm run dev-server\"",
     "initialize": "npm install && npm run prepare-client",
     "prepare-client": "cd client && npm install && npm run build",
-    "serve": "concurrently --kill-others-on-fail \"nodemon server.js\" \"npm run dev-client\"",
+    "serve": "concurrently --kill-others-on-fail \"npm run client\" \"npm run server\"",
+    "server": "APP_MODE=production nodemon server.js",
     "start": "npm run initialize && npm run serve"
   }
 }

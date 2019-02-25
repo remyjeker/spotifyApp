@@ -22,9 +22,6 @@ class SearchPage extends Component<Props, State> {
     this.state = {
       results: []
     };
-
-    // eslint-disable-next-line no-console
-    console.log('SearchPage - props', props);
   }
 
   handleKeyPress = (event: any) => {
