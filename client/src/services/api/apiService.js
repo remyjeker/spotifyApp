@@ -3,8 +3,7 @@ export class ApiService {
 
   requestInit: any;
 
-  // Should get process.env.PORT (to allow 3000)
-  constructor(baseUrl: string = 'http://localhost:5000') {
+  constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
 
     this.requestInit = {
@@ -20,21 +19,15 @@ export class ApiService {
   login = () => {
     const loginUrl = this.baseUrl.concat('/api/login');
 
-    window.fetch(loginUrl, this.requestInit).then(
-      response => {
-        const { redirected, url } = response;
+    window.fetch(loginUrl, this.requestInit).then(response => {
+      const { redirected, url } = response;
 
-        if (redirected && url) {
-          window.location.replace(url);
-        } else {
-          window.location.replace('/app/error/authentication-error');
-        }
-      },
-      error => {
-        // eslint-disable-next-line no-console
-        console.log('fetch error', error);
+      if (redirected && url) {
+        window.location.replace(url);
+      } else {
+        window.location.replace('/app/error/authentication-error');
       }
-    );
+    });
   };
 
   search = (keyword: string, type: string) => {

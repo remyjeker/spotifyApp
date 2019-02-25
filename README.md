@@ -1,17 +1,26 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+- Make sure you have Node.Js installed on your machine.
 
-### `npm run initialize`
+  Chech with running : `node -v` in the terminal.
+  Otherwise, please refer to [nodejs](https://nodejs.org/en/download/).
 
-N.B : The react app server will automatically redirect you on port 3000 (client port)
+- Download the Zip file : `spotifyApp-master.zip`
+  Then, extract it to the desired location (like : `/User/dev/spotifyApp-master/`)
+
+- Go to the project folder in the terminal.
+- You must have a valid Spotify Account and being logged in.
+
+### Commands
+
+`npm run start`
+
+This command will install all the needed dependencies, and launch a client.
+The react app server will automatically redirect you on port 3000 (client port)
+
+### Notes
+
 Please, don't forget to change de port to 5000 (server port)
-
-Runs the app : (serve a production bundle)<br>
 Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
-
-If you want to edit the client/server app, you have to kill the app process and run :
-
-### `npm run dev`

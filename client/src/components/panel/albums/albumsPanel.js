@@ -6,8 +6,16 @@ import defaultCoverAlbum from '../../../img/default_album.png';
 
 import './albumsPanel.css';
 
+type CustomMatch = {
+  params: any,
+  isExact: boolean,
+  path: string,
+  url: string
+};
+
 type Props = {
-  match: any
+  api: ApiService,
+  match: CustomMatch
 };
 
 type State = {
@@ -17,12 +25,8 @@ type State = {
 const noop = () => {};
 
 class AlbumsPanel extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
-
-    console.log('AlbumsPanel - props', props);
-
-    this.apiService = new ApiService();
 
     this.searchType = 'album';
 
@@ -30,15 +34,20 @@ class AlbumsPanel extends Component<Props, State> {
       albums: []
     };
 
-    this.fetchAlbums();
-  }
-
-  fetchAlbums = () => {
     const { match } = this.props;
     const { params } = match;
     const { name } = params;
 
-    this.apiService.search(name, this.searchType).then(data => {
+    this.fetchAlbums(name);
+
+    // eslint-disable-next-line no-console
+    console.log('AlbumsPanel - props', props);
+  }
+
+  fetchAlbums = (artistName: string) => {
+    const { api } = this.props;
+
+    api.search(artistName, this.searchType).then(data => {
       const { albums } = data;
       const { items } = albums;
 
@@ -55,8 +64,6 @@ class AlbumsPanel extends Component<Props, State> {
   handleClick = (spotifyUrl: string) => {
     this.showOnSpotify(spotifyUrl);
   };
-
-  apiService: ApiService;
 
   searchType: string;
 

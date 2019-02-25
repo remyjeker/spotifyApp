@@ -2,7 +2,6 @@
 .*/__tests__/.*
 .*/build/.*
 .*/node_modules/.*
-.*/server.js
 .*/src/index.js
 .*/src/utils/registerServiceWorker.js
 

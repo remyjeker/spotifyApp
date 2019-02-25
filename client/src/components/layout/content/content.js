@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
+import type { RouterHistory, Location, Match } from 'react-router-dom';
+import type { Cookies } from 'react-cookie';
 
+import type { User } from '../../../types/user';
+import ApiService from '../../../services/api';
+import AlbumPanel from '../../panel/albums';
 import LandingPage from '../../pages/landing';
 import SearchPage from '../../pages/search';
-import AlbumPanel from '../../panel/albums';
 
 import * as PATHS from '../../../routes';
 
 import '../layout.css';
 
 type Props = {
-  history: any,
-  user: any,
-  logout: any
+  api: ApiService,
+  cookie: Cookies,
+  history: RouterHistory,
+  location: Location,
+  login: () => void,
+  logout: () => void,
+  match: Match,
+  user: User
 };
 
 class Content extends Component<Props> {
@@ -24,19 +33,24 @@ class Content extends Component<Props> {
     if (history != null) {
       history.listen((location, action) => {
         // eslint-disable-next-line no-console
-        console.log('Router history action : ', action, location.pathname);
+        console.log(
+          'Router history action : ',
+          action,
+          'to : ',
+          location.pathname
+        );
       });
     }
   }
 
-  componentDidUpdate(prevProps: any, prevState: any) {
-    console.log('Content - componentDidUpdate', prevProps, prevState);
-  }
-
   render() {
-    const { user, logout } = this.props;
+    const { api, user, login, logout } = this.props;
 
     const anonymous: boolean = user == null;
+
+    const handleClick = () => {
+      logout();
+    };
 
     const UserComponent = () => {
       if (user == null) return <h5>Unable to get user info</h5>;
@@ -60,21 +74,27 @@ class Content extends Component<Props> {
       );
     };
 
-    const GuardedSearch = () => {
-      if (anonymous) {
-        return (
-          <div className="LoginRedirect">
-            <h2>Welcome anonymous!</h2>
-            <h4>You must be logged in to search artists!</h4>
-            <h4>
-              Please, sign in <Link to={PATHS.LANDING_ROUTE}>here</Link>
-            </h4>
-          </div>
-        );
-      }
+    const GuardTemplate = () => (
+      <div className="LoginRedirect">
+        <h2>Welcome anonymous!</h2>
+        <h4>You must be logged in to search artists!</h4>
+        <h4>
+          Please, sign in <Link to={PATHS.LANDING_ROUTE}>here</Link>
+        </h4>
+      </div>
+    );
 
-      return <SearchPage {...this.props} />;
-    };
+    // eslint-disable-next-line no-shadow
+    const PrivateRoute = ({ component: Component, ...routeProps }) => (
+      <Route
+        {...routeProps}
+        render={props =>
+          anonymous ? <GuardTemplate /> : <Component {...props} api={api} />
+        }
+      />
+    );
+
+    const ParameterizedLandingPage = () => <LandingPage login={login} />;
 
     const navClassName = 'AppContent__navigation';
     const navItemsClassName = `${navClassName}__items`;
@@ -95,7 +115,7 @@ class Content extends Component<Props> {
     ) : (
       <div className={navClassName}>
         {searchLink}
-        <Link to={PATHS.LANDING_ROUTE} onClick={logout}>
+        <Link to={PATHS.LANDING_ROUTE} onClick={handleClick}>
           <div className={navItemsClassName}>Logout</div>
         </Link>
       </div>
@@ -108,10 +128,16 @@ class Content extends Component<Props> {
           <Switch>
             <Route path={PATHS.USER_ROUTE} component={UserComponent} />
             <Route path={PATHS.ERROR_ROUTE} component={ErrorComponent} />
-            <Route path={PATHS.SEARCH_ROUTE} component={GuardedSearch} />
-            <Route path={PATHS.ARTIST_ALBUMS_ROUTE} component={AlbumPanel} />
-            <Route path={PATHS.LANDING_ROUTE} component={LandingPage} />
-            <Route path="/*" component={GuardedSearch} />
+            <PrivateRoute path={PATHS.SEARCH_ROUTE} component={SearchPage} />
+            <PrivateRoute
+              path={PATHS.ARTIST_ALBUMS_ROUTE}
+              component={AlbumPanel}
+            />
+            <Route
+              path={PATHS.LANDING_ROUTE}
+              component={ParameterizedLandingPage}
+            />
+            <PrivateRoute path="/*" component={SearchPage} />
           </Switch>
         </div>
       </div>

@@ -5,22 +5,11 @@ const express = require("express");
 const path = require("path");
 const querystring = require("querystring");
 const request = require("request");
-const http = require("http");
-
-const builtAppPath = "client/build";
-
-const stateKey = "spotify_auth_state";
-const userKey = "spotify_app_user";
-
-const accessTokenKey = "spotify_app_access_token";
-const refreshTokenKey = "spotify_app_refresh_token";
-
-const resulstLimit = 20;
-
-const serverPort = 5000;
-const appPort = 5001;
 
 const baseAppUri = "/app";
+const builtAppPath = "client/build";
+const resulstLimit = 20;
+const serverPort = 5000;
 
 const generateRandomString = length => {
   let text = "";
@@ -37,9 +26,9 @@ const generateHeadersBasicAuthorization = () => {
   return {
     Authorization:
       "Basic " +
-      new Buffer(
-        process.env.SP_API_CLIENT_ID + ":" + process.env.SP_API_CLIENT_SECRET
-      ).toString("base64")
+      new Buffer(SP_API_CLIENT_ID + ":" + SP_API_CLIENT_SECRET).toString(
+        "base64"
+      )
   };
 };
 
@@ -50,6 +39,16 @@ const generateHeadersBearerAuthorization = accessToken => {
 };
 
 dotenv.load();
+
+const {
+  USER_COOKIE_KEY,
+  STATE_COOKIE_KEY,
+  ACCESS_TOKEN_COOKIE_KEY,
+  REFRESH_TOKEN_COOKIE_KEY,
+  SP_API_CLIENT_ID,
+  SP_API_CLIENT_SECRET,
+  SP_API_REDIRECT_URI
+} = process.env;
 
 const app = express();
 
@@ -69,16 +68,17 @@ app.get(baseAppUri, (req, res) => {
 app.get("/api/login", (req, res) => {
   const state = generateRandomString(16);
 
-  res.cookie(stateKey, state);
+  res.cookie(STATE_COOKIE_KEY, state);
 
   const scope = "user-read-private user-read-email";
+
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
         response_type: "code",
-        client_id: process.env.SP_API_CLIENT_ID,
+        client_id: SP_API_CLIENT_ID,
         scope: scope,
-        redirect_uri: process.env.SP_API_REDIRECT_URI,
+        redirect_uri: SP_API_REDIRECT_URI,
         state: state
       })
   );
@@ -87,18 +87,18 @@ app.get("/api/login", (req, res) => {
 app.get("/api/callback", (req, res) => {
   const code = req.query.code || null;
   const state = req.query.state || null;
-  const storedState = req.cookies ? req.cookies[stateKey] : null;
+  const storedState = req.cookies ? req.cookies[STATE_COOKIE_KEY] : null;
 
   if (state === null || state !== storedState) {
     res.redirect(`${baseAppUri}/error/state_mismatch`);
   } else {
-    res.clearCookie(stateKey);
+    res.clearCookie(STATE_COOKIE_KEY);
 
     const authOptions = {
       url: "https://accounts.spotify.com/api/token",
       form: {
         code: code,
-        redirect_uri: process.env.SP_API_REDIRECT_URI,
+        redirect_uri: SP_API_REDIRECT_URI,
         grant_type: "authorization_code"
       },
       headers: generateHeadersBasicAuthorization(),
@@ -136,13 +136,13 @@ app.get("/api/me", (req, res) => {
     const { id } = body;
 
     if (body && id) {
-      res.cookie(userKey, body);
-      res.cookie(accessTokenKey, access_token);
-      res.cookie(refreshTokenKey, refresh_token);
+      res.cookie(USER_COOKIE_KEY, body);
+      res.cookie(ACCESS_TOKEN_COOKIE_KEY, access_token);
+      res.cookie(REFRESH_TOKEN_COOKIE_KEY, refresh_token);
 
       res.redirect(`${baseAppUri}/user/${id}`);
     } else {
-      res.redirect(`${baseAppUri}/error/auth_error`);
+      res.redirect(`${baseAppUri}/error/spotify_authentication_error`);
     }
     res.end();
   });
@@ -164,7 +164,7 @@ app.get("/api/refresh_token", (req, res) => {
     if (!error && response.statusCode === 200) {
       const access_token = body.access_token;
 
-      res.cookie(accessTokenKey, access_token);
+      res.cookie(ACCESS_TOKEN_COOKIE_KEY, access_token);
 
       res.redirect(`${baseAppUri}/error/refresh_browser`);
     }
@@ -172,8 +172,12 @@ app.get("/api/refresh_token", (req, res) => {
 });
 
 app.get("/api/search", (req, res) => {
-  const storedAccessToken = req.cookies ? req.cookies[accessTokenKey] : null;
-  const storedRefreshToken = req.cookies ? req.cookies[refreshTokenKey] : null;
+  const storedAccessToken = req.cookies
+    ? req.cookies[ACCESS_TOKEN_COOKIE_KEY]
+    : null;
+  const storedRefreshToken = req.cookies
+    ? req.cookies[REFRESH_TOKEN_COOKIE_KEY]
+    : null;
 
   if (storedAccessToken === null) {
     res.redirect(`${baseAppUri}/error/access_token_missing`);
@@ -221,12 +225,6 @@ app.get("/api/search", (req, res) => {
   });
 });
 
-var server = http.createServer(app);
-
-app.listen(appPort, () => {
-  console.log(`App listening on port : ${appPort}`);
-});
-
-server.listen(serverPort, () => {
-  console.log("Web Server listening on port : " + serverPort);
+app.listen(serverPort, () => {
+  console.log(`Web Server listening on port : ${serverPort}`);
 });

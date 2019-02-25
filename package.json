@@ -10,18 +10,20 @@
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "http": "0.0.0",
+    "nodemon": "^1.18.10",
     "path": "^0.12.7",
     "querystring": "^0.2.0",
     "request": "^2.88.0"
   },
   "scripts": {
     "clean": "rm -rf client/build/ && rm -rf client/node_modules/ && rm client/package-lock.json && rm -rf node_modules/ && rm package-lock.json",
-    "client": "cd client && npm run start",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "initialize": "npm install && npm run prepare-client && npm run dev",
+    "client": "cd client && npm run build",
+    "dev-client": "cd client && npm run start",
+    "dev-server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run dev-server\" \"npm run dev-client\"",
+    "initialize": "npm install && npm run prepare-client",
     "prepare-client": "cd client && npm install && npm run build",
-    "server": "nodemon server.js",
-    "start": "npm run prepare-client && npm run dev",
-    "sync-server": "npm run clean && npm run initialize"
+    "serve": "concurrently --kill-others-on-fail \"nodemon server.js\" \"npm run dev-client\"",
+    "start": "npm run initialize && npm run serve"
   }
 }

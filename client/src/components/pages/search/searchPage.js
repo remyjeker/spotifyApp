@@ -5,7 +5,9 @@ import ArtistsPanel from '../../panel/artists';
 
 import './searchPage.css';
 
-type Props = {};
+type Props = {
+  api: ApiService
+};
 
 type State = {
   results: Array<any>
@@ -15,19 +17,19 @@ class SearchPage extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.apiService = new ApiService();
-
     this.searchType = 'artist';
 
     this.state = {
       results: []
     };
 
+    // eslint-disable-next-line no-console
     console.log('SearchPage - props', props);
   }
 
   handleKeyPress = (event: any) => {
     const { key, target } = event;
+
     if (key === 'Enter') {
       const { value } = target;
 
@@ -36,7 +38,9 @@ class SearchPage extends Component<Props, State> {
   };
 
   fetchArtists = (keywork: string) => {
-    this.apiService.search(keywork, this.searchType).then(data => {
+    const { api } = this.props;
+
+    api.search(keywork, this.searchType).then(data => {
       const { artists } = data;
       const { items } = artists;
 
@@ -45,8 +49,6 @@ class SearchPage extends Component<Props, State> {
       });
     });
   };
-
-  apiService: ApiService;
 
   searchType: string;
 
@@ -65,7 +67,7 @@ class SearchPage extends Component<Props, State> {
             placeholder={inputPlaceholder}
           />
 
-          <ArtistsPanel artists={results} />
+          <ArtistsPanel {...this.props} artists={results} />
 
           <p>Results : {resultsLength}</p>
         </div>
