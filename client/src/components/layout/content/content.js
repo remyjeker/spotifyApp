@@ -7,7 +7,10 @@ import type { User } from '../../../types/user';
 import ApiService from '../../../services/api';
 import AlbumPanel from '../../panel/albums';
 import LandingPage from '../../pages/landing';
+import ProfilePage from '../../pages/profile';
 import SearchPage from '../../pages/search';
+import ErrorPage from '../../pages/error';
+import Navigation from '../navigation';
 
 import * as PATHS from '../../../routes';
 
@@ -25,54 +28,10 @@ type Props = {
 };
 
 class Content extends Component<Props> {
-  constructor(props: any) {
-    super(props);
-
-    const { history } = props;
-
-    if (history != null) {
-      history.listen((location, action) => {
-        // eslint-disable-next-line no-console
-        console.log(
-          'Router history action : ',
-          action,
-          'to : ',
-          location.pathname
-        );
-      });
-    }
-  }
-
   render() {
-    const { api, user, login, logout } = this.props;
+    const { api, user, login, logout, history } = this.props;
 
     const anonymous: boolean = user == null;
-
-    const handleClick = () => {
-      logout();
-    };
-
-    const UserComponent = () => {
-      if (user == null) return <h5>Unable to get user info</h5>;
-
-      return (
-        <div className="UserProfile">
-          <h5>User : {user.display_name}</h5>
-        </div>
-      );
-    };
-
-    const ErrorComponent = ({ match }) => {
-      const { params } = match;
-      const { errorMsg } = params;
-
-      return (
-        <div className="error">
-          <h5>An Error Occured</h5>
-          <p>{errorMsg}</p>
-        </div>
-      );
-    };
 
     const GuardTemplate = () => (
       <div className="LoginRedirect">
@@ -95,39 +54,22 @@ class Content extends Component<Props> {
     );
 
     const ParameterizedLandingPage = () => <LandingPage login={login} />;
-
-    const navClassName = 'AppContent__navigation';
-    const navItemsClassName = `${navClassName}__items`;
-
-    const searchLink = (
-      <Link to={PATHS.SEARCH_ROUTE}>
-        <div className={navItemsClassName}>Search Artists</div>
-      </Link>
-    );
-
-    const navigationLinks = anonymous ? (
-      <div className={navClassName}>
-        <Link to={PATHS.LANDING_ROUTE}>
-          <div className={navItemsClassName}>Login</div>
-        </Link>
-        {searchLink}
-      </div>
-    ) : (
-      <div className={navClassName}>
-        {searchLink}
-        <Link to={PATHS.LANDING_ROUTE} onClick={handleClick}>
-          <div className={navItemsClassName}>Logout</div>
-        </Link>
-      </div>
-    );
+    const ParameterizedProfilePage = () => <ProfilePage user={user} />;
+    const ParameterizedErrorPage = ({ match }) => <ErrorPage match={match} />;
 
     return (
       <div className="AppContent remainingHeight">
         <div className="AppContent__wrapper">
-          {navigationLinks}
+          <Navigation history={history} logout={logout} user={user} />
           <Switch>
-            <Route path={PATHS.USER_ROUTE} component={UserComponent} />
-            <Route path={PATHS.ERROR_ROUTE} component={ErrorComponent} />
+            <Route
+              path={PATHS.PROFILE_ROUTE}
+              component={ParameterizedProfilePage}
+            />
+            <Route
+              path={PATHS.ERROR_ROUTE}
+              component={ParameterizedErrorPage}
+            />
             <PrivateRoute path={PATHS.SEARCH_ROUTE} component={SearchPage} />
             <PrivateRoute
               path={PATHS.ARTIST_ALBUMS_ROUTE}

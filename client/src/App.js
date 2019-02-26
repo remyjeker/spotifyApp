@@ -22,7 +22,6 @@ type State = {
   user: User | null
 };
 
-// From .env file
 const APP_NAME = 'Spotify Artists Search';
 const USER_COOKIE_KEY = 'spotify_app_user';
 const ACCESS_TOKEN_COOKIE_KEY = 'spotify_app_access_token';
