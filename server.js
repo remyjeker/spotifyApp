@@ -228,6 +228,14 @@ app.get("/api/search", (req, res) => {
   });
 });
 
+app.get("/api/logout", (req, res) => {
+  res.clearCookie(USER_COOKIE_KEY);
+  res.clearCookie(ACCESS_TOKEN_COOKIE_KEY);
+  res.clearCookie(REFRESH_TOKEN_COOKIE_KEY);
+
+  res.redirect(`${baseAppUri}`);
+});
+
 app.get("*", (req, res) => {
   if (DEV_MODE) {
     res.sendFile(path.join(__dirname, appDevServerPath, indexFile));

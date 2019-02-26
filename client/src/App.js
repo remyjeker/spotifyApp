@@ -24,8 +24,9 @@ type State = {
 
 const APP_NAME = 'Spotify Artists Search';
 const USER_COOKIE_KEY = 'spotify_app_user';
-const ACCESS_TOKEN_COOKIE_KEY = 'spotify_app_access_token';
-const REFRESH_TOKEN_COOKIE_KEY = 'spotify_app_refresh_token';
+
+const API_AUTH_ACTION_LOGIN = 'login';
+const API_AUTH_ACTION_LOGOUT = 'logout';
 
 class App extends Component<Props, State> {
   constructor(props: any) {
@@ -66,17 +67,13 @@ class App extends Component<Props, State> {
   login = () => {
     const { api } = this.props;
 
-    api.login();
+    api.auth(API_AUTH_ACTION_LOGIN);
   };
 
   logout = () => {
-    const { cookie } = this.props;
+    const { api } = this.props;
 
-    cookie.remove(USER_COOKIE_KEY);
-    cookie.remove(ACCESS_TOKEN_COOKIE_KEY);
-    cookie.remove(REFRESH_TOKEN_COOKIE_KEY);
-
-    this.setUser(null);
+    api.auth(API_AUTH_ACTION_LOGOUT);
   };
 
   render() {
