@@ -22,9 +22,6 @@ class SearchPage extends Component<Props, State> {
     this.state = {
       results: []
     };
-
-    // eslint-disable-next-line no-console
-    console.log('SearchPage - props', props);
   }
 
   handleKeyPress = (event: any) => {
@@ -55,21 +52,18 @@ class SearchPage extends Component<Props, State> {
   render() {
     const inputPlaceholder = 'Search for an artist...';
     const { results } = this.state;
-    const resultsLength = results.length;
 
     return (
       <div className="AppPage SearchPage">
         <div className="SearchPage__wrapper">
+          <h4>Search</h4>
           <input
             type="text"
             className="SearchPage__searchInput"
             onKeyPress={this.handleKeyPress}
             placeholder={inputPlaceholder}
           />
-
           <ArtistsPanel {...this.props} artists={results} />
-
-          <p>Results : {resultsLength}</p>
         </div>
       </div>
     );

@@ -16,10 +16,10 @@ export class ApiService {
     };
   }
 
-  login = () => {
-    const loginUrl = this.baseUrl.concat('/api/login');
+  auth = (action: string): void => {
+    const authUrl = this.baseUrl.concat(`/api/${action}`);
 
-    window.fetch(loginUrl, this.requestInit).then(response => {
+    window.fetch(authUrl, this.requestInit).then(response => {
       const { redirected, url } = response;
 
       if (redirected && url) {

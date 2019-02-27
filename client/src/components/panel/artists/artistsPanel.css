@@ -36,8 +36,39 @@
 }
 
 .ArtistsPanel__thumbnail__followers {
-  color: lightgrey;
+  color: #cecece;
   float: left;
   font-size: 14px;
   margin: 0 10px;
+}
+
+.ArtistsPanel__rating {
+  display: inline-flex;
+  margin-bottom: 10px;
+  margin-top: 30px;
+}
+
+.ArtistsPanel__rating__icon {
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+  height: 25px;
+  width: 25px;
+}
+
+.ArtistsPanel__rating__icon.default {
+  background-color: #cecece;
+}
+
+.ArtistsPanel__rating__icon.active {
+  background-color: #cc0505;
 }

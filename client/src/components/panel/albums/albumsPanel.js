@@ -39,9 +39,6 @@ class AlbumsPanel extends Component<Props, State> {
     const { name } = params;
 
     this.fetchAlbums(name);
-
-    // eslint-disable-next-line no-console
-    console.log('AlbumsPanel - props', props);
   }
 
   fetchAlbums = (artistName: string) => {

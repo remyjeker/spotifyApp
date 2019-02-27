@@ -6,12 +6,20 @@ export type Images = {
 
 export type UserImages = Array<Images>;
 
+export type ExtUrls = {
+  spotify: string
+};
+
+export type Followers = {
+  total: number
+};
+
 export type User = {
   country: string,
   display_name: string,
   email: string,
-  external_urls: Array<any>,
-  followers: any,
+  external_urls: ExtUrls,
+  followers: Followers,
   href: string,
   id: string,
   images: UserImages,

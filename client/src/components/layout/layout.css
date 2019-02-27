@@ -27,19 +27,40 @@
 }
 
 .AppContent__navigation {
-  border-bottom: 1px solid var(--main-header-color);
   display: flex;
   flex-direction: row;
   justify-content: center;
+  padding: 5px 0;
   width: 100%;
 }
 
-.AppContent__navigation a {
+.AppContent__linkButton {
+  border: 0 solid transparent;
+  cursor: pointer;
+  font-size: 16px;
   text-decoration: none;
 }
 
+.AppContent__linkButton,
+.AppContent__navigation a {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  color: black;
+  margin: 0 5px;
+  text-decoration: none;
+}
+
+.AppContent__linkButton:hover,
 .AppContent__navigation a:hover {
-  background-color: rgb(230, 230, 230);
+  background-color: white;
+}
+
+.AppContent__linkButton img {
+  height: 16px;
+}
+
+.AppContent__navigation a:active {
+  color: inherit;
 }
 
 .AppContent__navigation__items {

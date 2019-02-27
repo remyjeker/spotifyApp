@@ -9,8 +9,6 @@
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "http": "0.0.0",
-    "nodemon": "^1.18.10",
     "path": "^0.12.7",
     "querystring": "^0.2.0",
     "request": "^2.88.0"
@@ -19,11 +17,12 @@
     "clean": "rm -rf client/build/ && rm -rf client/node_modules/ && rm client/package-lock.json && rm -rf node_modules/ && rm package-lock.json",
     "client": "cd client && npm run build",
     "dev-client": "cd client && npm run start",
-    "dev-server": "nodemon server.js",
+    "dev-server": "APP_MODE=development node server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run dev-server\" \"npm run dev-client\"",
     "initialize": "npm install && npm run prepare-client",
     "prepare-client": "cd client && npm install && npm run build",
-    "serve": "concurrently --kill-others-on-fail \"nodemon server.js\" \"npm run dev-client\"",
+    "serve": "concurrently --kill-others-on-fail \"npm run client\" \"npm run server\"",
+    "server": "APP_MODE=production node server.js",
     "start": "npm run initialize && npm run serve"
   }
 }
