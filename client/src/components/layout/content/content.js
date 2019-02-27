@@ -41,7 +41,7 @@ class Content extends Component<Props> {
 
     const ParameterizedErrorPage = ({ match }) => <ErrorPage match={match} />;
 
-    const GuardedRoute = routeProps => (
+    const GuardedRoute = (routeProps: any) => (
       <Guard {...routeProps} api={api} isAuthorized={isAuthenticated} />
     );
 

@@ -22,7 +22,7 @@ type State = {
   user: User | null
 };
 
-const APP_NAME = 'Spotify Artists Search';
+const APP_NAME = 'Spotify Search';
 const USER_COOKIE_KEY = 'spotify_app_user';
 
 const API_AUTH_ACTION_LOGIN = 'login';

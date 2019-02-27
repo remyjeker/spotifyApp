@@ -43,8 +43,9 @@
 
 .AppContent__linkButton,
 .AppContent__navigation a {
-  background-color: rgb(230, 230, 230);
+  background-color: #f0f0f0;
   border-radius: 5px;
+  color: black;
   margin: 0 5px;
   text-decoration: none;
 }
@@ -52,6 +53,10 @@
 .AppContent__linkButton:hover,
 .AppContent__navigation a:hover {
   background-color: white;
+}
+
+.AppContent__linkButton img {
+  height: 16px;
 }
 
 .AppContent__navigation a:active {

@@ -233,7 +233,7 @@ app.get("/api/logout", (req, res) => {
   res.clearCookie(ACCESS_TOKEN_COOKIE_KEY);
   res.clearCookie(REFRESH_TOKEN_COOKIE_KEY);
 
-  res.redirect(`${baseAppUri}`);
+  res.redirect(`${baseAppUri}/landing`);
 });
 
 app.get("*", (req, res) => {

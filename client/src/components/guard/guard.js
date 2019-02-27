@@ -13,17 +13,21 @@ const GuardTemplate = () => (
   </div>
 );
 
-const Guard = ({ component: Component, ...routeProps }) => (
-  <Route
-    {...routeProps}
-    render={props =>
-      !routeProps.isAuthorized ? (
-        <GuardTemplate />
-      ) : (
-        <Component {...props} api={routeProps.api} />
-      )
-    }
-  />
-);
+const Guard = (props: any) => {
+  const { component: Component, ...routeProps } = props;
+
+  return (
+    <Route
+      {...routeProps}
+      render={context =>
+        !routeProps.isAuthorized ? (
+          <GuardTemplate />
+        ) : (
+          <Component {...context} api={routeProps.api} />
+        )
+      }
+    />
+  );
+};
 
 export default Guard;

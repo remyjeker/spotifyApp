@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
 
 import type { User } from '../../../types/user';
-
+import icon from '../../../img/arrow_back.png';
 import * as PATHS from '../../../routes';
+
 import '../layout.css';
 
 type Props = {
@@ -61,7 +62,9 @@ class Navigation extends Component<Props> {
         className="AppContent__linkButton"
         onClick={handleBackButtonClick}
       >
-        <div className={navItemsClassName}>Back</div>
+        <div className={navItemsClassName}>
+          <img src={icon} alt="back" />
+        </div>
       </button>
     );
 
