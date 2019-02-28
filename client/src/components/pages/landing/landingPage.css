@@ -1,26 +1,3 @@
-.LandingPage button {
+.LandingPage .SpotifyButton {
   margin: 40vh auto;
-  width: 50vw;
-}
-
-.LandingPage__loginButton {
-  border: 1px solid grey;
-  border-radius: 5px;
-  padding: 5px;
-}
-
-.LandingPage__loginButton__wrapper {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-
-.LandingPage__loginButton__title {
-  font-size: 16px;
-  font-weight: 500;
-  margin-right: 10px;
-}
-
-.LandingPage__loginButton .Logo {
-  margin: 4px;
 }

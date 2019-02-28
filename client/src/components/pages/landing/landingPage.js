@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import logo from '../../../img/spotify_logo.png';
+import spLogo from '../../../img/spotify_logo.png';
 
 import './landingPage.css';
 
@@ -21,16 +21,12 @@ class LandingPage extends Component<Props> {
 
     return (
       <div className="AppPage LandingPage">
-        <button
-          className="LandingPage__loginButton"
-          type="button"
-          onClick={handleClick}
-        >
-          <div className="LandingPage__loginButton__wrapper">
-            <div className="LandingPage__loginButton__title">
+        <button className="SpotifyButton" type="button" onClick={handleClick}>
+          <div className="SpotifyButton__wrapper">
+            <div className="SpotifyButton__title">
               <span>Login with Spotify</span>
             </div>
-            <img src={logo} className="Logo" alt="spotify_logo" />
+            <img src={spLogo} className="SpotifyLogo" alt="spotify_logo" />
           </div>
         </button>
       </div>

@@ -1,7 +1,10 @@
 :root {
-  --main-header-color: rgb(58, 58, 58);
-  --main-header-heigth: 50px;
-  --main-logo-heigth: 38px;
+  --main-content-color: #585858;
+  --main-dark-color: #222222;
+  --main-element-color: #cecece;
+  --main-gloomy-color: #3a3a3a;
+  --main-spotify-color: #00b662;
+  --main-unclouded-color: #e2e2e2;
 }
 
 .App {
@@ -17,7 +20,34 @@
   height: calc(100vh - 50px);
 }
 
-.Logo {
-  height: var(--main-logo-heigth);
+.SpotifyLogo {
+  height: 38px;
   pointer-events: none;
+}
+
+.SpotifyButton {
+  background-color: var(--main-element-color);
+  border-radius: 5px;
+  border: 1px solid var(--main-dark-color);
+  padding: 5px;
+
+  /* width: 100%; */
+  width: 50vw;
+}
+
+.SpotifyButton__wrapper {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.SpotifyButton__title {
+  color: var(--main-gloomy-color);
+  font-size: 16px;
+  font-weight: 500;
+  margin-right: 10px;
+}
+
+.SpotifyButton .SpotifyLogo {
+  margin: 5px;
 }

@@ -50,18 +50,17 @@ class SearchPage extends Component<Props, State> {
   searchType: string;
 
   render() {
-    const inputPlaceholder = 'Search for an artist...';
     const { results } = this.state;
 
     return (
       <div className="AppPage SearchPage">
         <div className="SearchPage__wrapper">
-          <h4>Search</h4>
+          <h4 className="AppPage__pageTitle">Search</h4>
           <input
             type="text"
             className="SearchPage__searchInput"
             onKeyPress={this.handleKeyPress}
-            placeholder={inputPlaceholder}
+            placeholder="Search for an artist..."
           />
           <ArtistsPanel {...this.props} artists={results} />
         </div>

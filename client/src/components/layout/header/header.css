@@ -1,0 +1,44 @@
+.AppHeader {
+  background-color: var(--main-gloomy-color);
+  height: 40px;
+  padding: 5px;
+}
+
+.AppHeader > * {
+  display: flex;
+  height: 40px;
+  line-height: 40px;
+  min-height: 40px;
+}
+
+.AppHeader__logo {
+  float: left;
+}
+
+.AppHeader__title {
+  color: var(--main-unclouded-color);
+  display: flex;
+  flex-flow: column;
+  float: unset;
+  overflow: hidden;
+  text-transform: capitalize;
+}
+
+.AppHeader__themeSwitcher,
+.AppHeader__toggleMenu {
+  cursor: pointer;
+  float: right;
+  margin-left: 5px;
+}
+
+.AppHeader__themeSwitcher__icon,
+.AppHeader__toggleMenu__icon {
+  border-radius: 5px;
+  height: 24px;
+  padding: 8px;
+}
+
+.AppHeader__themeSwitcher :hover,
+.AppHeader__toggleMenu :hover {
+  background-color: var(--main-content-color);
+}

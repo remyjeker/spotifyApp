@@ -15,7 +15,10 @@
 }
 
 .ArtistsPanel__thumbnail {
-  border: 1px solid grey;
+  background-color: var(--main-content-color);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border: 2px solid var(--main-dark-color);
   margin-bottom: 20px;
   margin-right: 20px;
   min-height: 200px;
@@ -36,7 +39,7 @@
 }
 
 .ArtistsPanel__thumbnail__followers {
-  color: #cecece;
+  color: var(--main-element-color);
   float: left;
   font-size: 14px;
   margin: 0 10px;
@@ -66,7 +69,7 @@
 }
 
 .ArtistsPanel__rating__icon.default {
-  background-color: #cecece;
+  background-color: var(--main-element-color);
 }
 
 .ArtistsPanel__rating__icon.active {

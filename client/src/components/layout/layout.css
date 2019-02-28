@@ -1,29 +1,5 @@
-.AppHeader {
-  background-color: var(--main-header-color);
-  height: 40px;
-  padding: 5px;
-}
-
-.AppHeader__wrapper,
-.AppHeader__title {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-.AppHeader__wrapper {
-  float: left;
-}
-
-.AppHeader__title {
-  color: white;
-  float: right;
-  height: 40px;
-  line-height: 40px;
-  text-transform: capitalize;
-}
-
-.AppContent__wrapper {
-  height: 100%;
+.AppContent {
+  background-color: var(--main-content-color);
 }
 
 .AppContent__navigation {
@@ -35,32 +11,30 @@
 }
 
 .AppContent__linkButton {
-  border: 0 solid transparent;
+  border: none;
   cursor: pointer;
-  font-size: 16px;
   text-decoration: none;
+}
+
+.AppContent__linkButton {
+  background-color: transparent;
 }
 
 .AppContent__linkButton,
 .AppContent__navigation a {
-  background-color: #f0f0f0;
   border-radius: 5px;
-  color: black;
+  color: var(--main-unclouded-color);
   margin: 0 5px;
   text-decoration: none;
 }
 
 .AppContent__linkButton:hover,
 .AppContent__navigation a:hover {
-  background-color: white;
+  background-color: var(--main-gloomy-color);
 }
 
 .AppContent__linkButton img {
-  height: 16px;
-}
-
-.AppContent__navigation a:active {
-  color: inherit;
+  height: 14px;
 }
 
 .AppContent__navigation__items {
@@ -68,6 +42,17 @@
 }
 
 .AppPage {
-  background-color: white;
+  background-color: var(--main-gloomy-color);
+  color: var(--main-element-color);
   padding: 20px;
+}
+
+.AppPage__pageTitle {
+  color: var(--main-element-color);
+  font-weight: 500;
+  margin-top: 0;
+}
+
+.AppPage__spotifyButton {
+  background-color: var(--main-element-color);
 }

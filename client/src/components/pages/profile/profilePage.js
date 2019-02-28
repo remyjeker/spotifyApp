@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import type { User } from '../../../types/user';
 
-import logo from '../../../img/spotify_logo.png';
+import spLogo from '../../../img/spotify_logo.png';
 
 import './profilePage.css';
 
@@ -34,7 +34,7 @@ class ProfilePage extends Component<Props> {
 
     return (
       <div className="AppPage ProfilePage">
-        <h4>
+        <h4 className="AppPage__pageTitle">
           {profile.display_name}
           {"'s profile"}
         </h4>
@@ -43,15 +43,15 @@ class ProfilePage extends Component<Props> {
         )}
         <h5>{totalFollowers} followers</h5>
         <button
-          className="ProfilePage__profileButton"
+          className="SpotifyButton"
           type="button"
           onClick={() => this.handleClick(spotifyUrl)}
         >
-          <div className="ProfilePage__profileButton__wrapper">
-            <div className="ProfilePage__profileButton__title">
+          <div className="SpotifyButton__wrapper">
+            <div className="SpotifyButton__title">
               <span>Preview on Spotify</span>
             </div>
-            <img src={logo} className="Logo" alt="spotify_logo" />
+            <img src={spLogo} className="SpotifyLogo" alt="spotify_logo" />
           </div>
         </button>
       </div>
