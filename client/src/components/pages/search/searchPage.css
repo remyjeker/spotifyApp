@@ -1,7 +1,7 @@
 .SearchPage__searchInput {
   background-color: var(--main-element-color);
-  border-radius: 30px;
   border: 2px solid var(--main-dark-color);
+  border-radius: 30px;
   font-size: 16px;
   height: 46px;
   line-height: 40px;

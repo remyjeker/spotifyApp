@@ -7,6 +7,7 @@ import lightIcon from '../../../img/light_bulb_unclouded.png';
 import './header.css';
 
 type Props = {
+  changeTheme: () => void,
   title: string
 };
 
@@ -17,11 +18,14 @@ class Header extends Component<Props> {
     const { title } = this.props;
 
     const handleToggleMenuClick = () => {
+      // eslint-disable-next-line no-console
       console.log('ToggleMenu Click');
     };
 
     const handleThemeSwitcherClick = () => {
-      console.log('ThemeSwitcher Click');
+      const { changeTheme } = this.props;
+
+      changeTheme();
     };
 
     return (

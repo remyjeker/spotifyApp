@@ -38,6 +38,8 @@ class SearchPage extends Component<Props, State> {
     const { api } = this.props;
 
     api.search(keywork, this.searchType).then(data => {
+      if (data == null) return;
+
       const { artists } = data;
       const { items } = artists;
 

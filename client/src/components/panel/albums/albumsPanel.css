@@ -1,11 +1,9 @@
 .AlbumsThumbnail__preview {
   background: var(--main-element-color);
-  border-bottom: 1px solid grey;
-  border-top: 1px solid grey;
+  border: 2px solid var(--main-gloomy-color);
   color: var(--main-gloomy-color);
   cursor: pointer;
   height: 30px;
   line-height: 30px;
-  margin-bottom: -1px;
-  margin-top: 30px;
+  margin: 30px -2px -2px -2px;
 }

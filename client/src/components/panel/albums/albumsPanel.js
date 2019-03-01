@@ -113,7 +113,7 @@ class AlbumsPanel extends Component<Props, State> {
       <div className="AppPage AlbumsPanelPage">
         <div className="AlbumsPanelPage__header">
           <h4 className="AppPage__pageTitle">{name}</h4>
-          <h5>Albums</h5>
+          <h4 className="AppPage__pageTitle">Albums</h4>
         </div>
         <div className="Panel AlbumsPanel">{buildThumbnailsList()}</div>
       </div>

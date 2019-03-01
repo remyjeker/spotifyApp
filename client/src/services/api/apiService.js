@@ -39,8 +39,16 @@ export class ApiService {
     );
 
     return window.fetch(searchUrl, this.requestInit).then(response => {
-      if (response.status !== 200) {
+      const { status, redirected, url } = response;
+
+      if (status !== 200) {
         window.location.replace('/app/error/search-error');
+        return null;
+      }
+
+      if (redirected && url) {
+        window.location.reload();
+        return null;
       }
 
       return response.json();

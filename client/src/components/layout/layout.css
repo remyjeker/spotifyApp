@@ -2,45 +2,6 @@
   background-color: var(--main-content-color);
 }
 
-.AppContent__navigation {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 5px 0;
-  width: 100%;
-}
-
-.AppContent__linkButton {
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.AppContent__linkButton {
-  background-color: transparent;
-}
-
-.AppContent__linkButton,
-.AppContent__navigation a {
-  border-radius: 20px;
-  color: var(--main-unclouded-color);
-  margin: 0 5px;
-  text-decoration: none;
-}
-
-.AppContent__linkButton:hover,
-.AppContent__navigation a:hover {
-  background-color: var(--main-gloomy-color);
-}
-
-.AppContent__linkButton img {
-  height: 14px;
-}
-
-.AppContent__navigation__items {
-  padding: 10px;
-}
-
 .AppPage {
   background-color: var(--main-gloomy-color);
   color: var(--main-element-color);

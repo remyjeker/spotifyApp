@@ -6,7 +6,7 @@ import type { User } from '../../../types/user';
 import icon from '../../../img/arrow_back_unclouded.png';
 import * as PATHS from '../../../routes';
 
-import '../layout.css';
+import './navigation.css';
 
 type Props = {
   history: RouterHistory,
