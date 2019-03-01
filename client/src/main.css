@@ -1,10 +1,16 @@
 :root {
-  --main-content-color: #585858;
   --main-dark-color: #222222;
-  --main-element-color: #cecece;
   --main-gloomy-color: #3a3a3a;
-  --main-spotify-color: #00b662;
+  --main-content-color: #585858;
+  --main-discret-color: #909090;
+  --main-element-color: #cecece;
   --main-unclouded-color: #e2e2e2;
+  --main-activeStar-color: #cc0505;
+  --main-spotify-color: #00b662;
+}
+
+:focus {
+  outline: unset;
 }
 
 .App {
@@ -27,11 +33,9 @@
 
 .SpotifyButton {
   background-color: var(--main-element-color);
-  border-radius: 5px;
+  border-radius: 30px;
   border: 1px solid var(--main-dark-color);
   padding: 5px;
-
-  /* width: 100%; */
   width: 50vw;
 }
 

@@ -1,10 +1,12 @@
 .SearchPage__searchInput {
   background-color: var(--main-element-color);
-  border-radius: 5px;
+  border-radius: 30px;
   border: 2px solid var(--main-dark-color);
   font-size: 16px;
-  height: 40px;
+  height: 46px;
   line-height: 40px;
+  margin-bottom: 10px;
   padding: 5px;
+  text-align: center;
   width: 50vw;
 }

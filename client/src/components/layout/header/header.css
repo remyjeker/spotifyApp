@@ -33,7 +33,7 @@
 
 .AppHeader__themeSwitcher__icon,
 .AppHeader__toggleMenu__icon {
-  border-radius: 5px;
+  border-radius: 20px;
   height: 24px;
   padding: 8px;
 }

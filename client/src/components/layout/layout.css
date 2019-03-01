@@ -22,7 +22,7 @@
 
 .AppContent__linkButton,
 .AppContent__navigation a {
-  border-radius: 5px;
+  border-radius: 20px;
   color: var(--main-unclouded-color);
   margin: 0 5px;
   text-decoration: none;
