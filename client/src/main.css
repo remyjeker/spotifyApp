@@ -1,11 +1,27 @@
 :root {
-  --main-header-color: rgb(58, 58, 58);
-  --main-header-heigth: 50px;
-  --main-logo-heigth: 38px;
+  --main-activeStar-color: #cc0505;
+  --main-discret-color: #909090;
+  --main-spotify-color: #00b662;
 }
 
 .App {
   text-align: center;
+}
+
+.App.dark {
+  --main-unclouded-color: #e2e2e2;
+  --main-dark-color: #222222;
+  --main-gloomy-color: #3a3a3a;
+  --main-content-color: #585858;
+  --main-element-color: #cecece;
+}
+
+.App.light {
+  --main-content-color: white;
+  --main-dark-color: #909090;
+  --main-element-color: #cecece;
+  --main-gloomy-color: #00b66280;
+  --main-unclouded-color: #909090;
 }
 
 .isFullScreen {
@@ -17,7 +33,36 @@
   height: calc(100vh - 50px);
 }
 
-.Logo {
-  height: var(--main-logo-heigth);
+:focus {
+  outline: unset;
+}
+
+.SpotifyLogo {
+  height: 38px;
   pointer-events: none;
+}
+
+.SpotifyButton {
+  background-color: var(--main-element-color);
+  border: 1px solid var(--main-dark-color);
+  border-radius: 30px;
+  padding: 5px;
+  width: 50vw;
+}
+
+.SpotifyButton__wrapper {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.SpotifyButton__title {
+  color: var(--main-gloomy-color);
+  font-size: 16px;
+  font-weight: 500;
+  margin-right: 10px;
+}
+
+.SpotifyButton .SpotifyLogo {
+  margin: 5px;
 }

@@ -131,7 +131,7 @@ app.get("/api/me", (req, res) => {
 
   const options = {
     url: "https://api.spotify.com/v1/me",
-    headers: { Authorization: "Bearer " + access_token },
+    headers: generateHeadersBearerAuthorization(access_token),
     json: true
   };
 
@@ -147,12 +147,12 @@ app.get("/api/me", (req, res) => {
     } else {
       res.redirect(`${baseAppUri}/error/spotify_authentication_error`);
     }
-    res.end();
   });
 });
 
 app.get("/api/refresh_token", (req, res) => {
   const refresh_token = req.query.refresh_token;
+
   const authOptions = {
     url: "https://accounts.spotify.com/api/token",
     headers: generateHeadersBasicAuthorization(),
@@ -169,7 +169,9 @@ app.get("/api/refresh_token", (req, res) => {
 
       res.cookie(ACCESS_TOKEN_COOKIE_KEY, access_token);
 
-      res.redirect(`${baseAppUri}/error/refresh_browser`);
+      res.send({
+        accessTokenRefreshed: true
+      });
     }
   });
 });
@@ -177,9 +179,6 @@ app.get("/api/refresh_token", (req, res) => {
 app.get("/api/search", (req, res) => {
   const storedAccessToken = req.cookies
     ? req.cookies[ACCESS_TOKEN_COOKIE_KEY]
-    : null;
-  const storedRefreshToken = req.cookies
-    ? req.cookies[REFRESH_TOKEN_COOKIE_KEY]
     : null;
 
   if (storedAccessToken === null) {
@@ -204,27 +203,26 @@ app.get("/api/search", (req, res) => {
   request.get(reqOptions, (error, response, body) => {
     if (!error && response.statusCode == 200) {
       res.send(body);
+      res.end();
     } else {
       const { error } = body;
       const { message } = error;
 
-      if (message == "The access token expired") {
-        if (storedRefreshToken === null) {
-          res.redirect(`${baseAppUri}/error/refresh_token_missing`);
-        }
+      const storedRefreshToken = req.cookies
+        ? req.cookies[REFRESH_TOKEN_COOKIE_KEY]
+        : null;
 
-        res.redirect(
-          "/api/refresh_token?" +
-            querystring.stringify({
-              access_token: storedAccessToken,
-              refresh_token: storedRefreshToken
-            })
-        );
-      } else {
-        res.redirect(`${baseAppUri}/error/${message}`);
+      if (storedRefreshToken === null) {
+        res.redirect(`${baseAppUri}/error/refresh_token_missing`);
       }
+
+      res.redirect(
+        "/api/refresh_token?" +
+          querystring.stringify({
+            refresh_token: storedRefreshToken
+          })
+      );
     }
-    res.end();
   });
 });
 
@@ -244,16 +242,14 @@ app.get("*", (req, res) => {
   }
 });
 
-const logBuildingStatus = () => {
-  console.log("Please open your browser at 'http://localhost:5000'");
-};
-
 app.listen(serverPort, () => {
   console.log(
     `Web Server listening on port : ${serverPort} (pid: ${process.pid})`
   );
 
   if (!DEV_MODE) {
-    setTimeout(logBuildingStatus, 10000);
+    setTimeout(() => {
+      console.log("Please open your browser at 'http://localhost:5000'");
+    }, 10000);
   }
 });

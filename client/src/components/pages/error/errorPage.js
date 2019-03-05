@@ -13,7 +13,7 @@ class ErrorPage extends Component<Props> {
 
     return (
       <div className="AppPage ErrorPage">
-        <h4>An Error Occured</h4>
+        <h4 className="AppPage__pageTitle">An Error Occured</h4>
         <p>{message}</p>
       </div>
     );

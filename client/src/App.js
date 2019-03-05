@@ -29,21 +29,23 @@ const API_AUTH_ACTION_LOGIN = 'login';
 const API_AUTH_ACTION_LOGOUT = 'logout';
 
 class App extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
+
+    this.appNodeRef = React.createRef();
 
     this.state = {
       user: this.getUser() || null
     };
   }
 
-  componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
+  componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
     if (snapshot !== null) {
       this.setUser(null);
     }
   }
 
-  getSnapshotBeforeUpdate(prevProps: any, prevState: any) {
+  getSnapshotBeforeUpdate(prevProps: Props, prevState: State) {
     const { user: currentUser } = this.state;
 
     if (prevState.user !== null && currentUser == null) {
@@ -76,12 +78,29 @@ class App extends Component<Props, State> {
     api.auth(API_AUTH_ACTION_LOGOUT);
   };
 
+  handleThemeChange = () => {
+    const { current: appNode } = this.appNodeRef;
+    const { classList } = appNode;
+    const { value } = classList;
+    const hasDarkTheme = value.includes('dark');
+
+    if (hasDarkTheme) {
+      classList.add('light');
+      classList.remove('dark');
+    } else {
+      classList.add('dark');
+      classList.remove('light');
+    }
+  };
+
+  appNodeRef: any;
+
   render() {
     const { user: userState } = this.state;
 
     return (
-      <div className="App isFullScreen">
-        <Header title={APP_NAME} />
+      <div className="App isFullScreen dark" ref={this.appNodeRef}>
+        <Header changeTheme={this.handleThemeChange} title={APP_NAME} />
         <Content
           {...this.props}
           user={userState}

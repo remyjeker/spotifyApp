@@ -1,0 +1,8 @@
+.GuardPage__wrapper {
+  margin: 10vh auto;
+  width: 50vw;
+}
+
+.GuardPage a {
+  color: var(--main-spotify-color);
+}

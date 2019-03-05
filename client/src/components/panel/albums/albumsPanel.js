@@ -4,6 +4,7 @@ import ApiService from '../../../services/api';
 
 import defaultCoverAlbum from '../../../img/default_album.png';
 
+import '../panel.css';
 import './albumsPanel.css';
 
 type CustomMatch = {
@@ -75,7 +76,8 @@ class AlbumsPanel extends Component<Props, State> {
 
     const buildThumbnail = album => {
       const hasCover = album.images.length;
-      const coverUrl = hasCover ? album.images[0].url : null;
+      const spCoverUrl = hasCover ? album.images[0].url : null;
+      const coverUrl = hasCover ? spCoverUrl : defaultCoverAlbum;
 
       const hasArtist = album.artists.length;
       const artistName = hasArtist ? album.artists[0].name : name;
@@ -84,24 +86,12 @@ class AlbumsPanel extends Component<Props, State> {
         album.external_urls || 'https://open.spotify.com';
 
       return (
-        <div className="AlbumsPanel__thumbnail" key={album.id}>
-          {hasCover ? (
-            <img
-              className="AlbumsPanel__thumbnail__image"
-              src={coverUrl}
-              alt="album_cover"
-            />
-          ) : (
-            <img
-              className="AlbumsPanel__thumbnail__image"
-              src={defaultCoverAlbum}
-              alt="default_album_cover"
-            />
-          )}
-          <h4 className="AlbumsPanel__thumbnail__title">{album.name}</h4>
-          <span className="AlbumsPanel__thumbnail__artist">{artistName}</span>
+        <div className="Thumbnail AlbumsThumbnail" key={album.id}>
+          <img className="Thumbnail__image" src={coverUrl} alt="album_cover" />
+          <h4 className="Thumbnail__title">{album.name}</h4>
+          <span className="Thumbnail__details">{artistName}</span>
           <div
-            className="AlbumsPanel__thumbnail__preview"
+            className="AlbumsThumbnail__preview"
             role="button"
             tabIndex="0"
             onClick={() => this.handleClick(spotifyUrl)}
@@ -114,18 +104,18 @@ class AlbumsPanel extends Component<Props, State> {
     };
 
     const buildThumbnailsList = () => (
-      <div className="AlbumsPanel__list">
+      <div className="Panel__list AlbumsPanelList">
         {albums.map(album => buildThumbnail(album))}
       </div>
     );
 
     return (
-      <div className="AppPage AlbumsPanel">
-        <div className="AlbumsPanel__header">
-          <h3>{name}</h3>
-          <h4>Albums</h4>
+      <div className="AppPage AlbumsPanelPage">
+        <div className="AlbumsPanelPage__header">
+          <h4 className="AppPage__pageTitle">{name}</h4>
+          <h4 className="AppPage__pageTitle">Albums</h4>
         </div>
-        {buildThumbnailsList()}
+        <div className="Panel AlbumsPanel">{buildThumbnailsList()}</div>
       </div>
     );
   }

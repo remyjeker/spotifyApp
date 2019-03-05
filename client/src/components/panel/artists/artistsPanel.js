@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import defaultCoverAlbum from '../../../img/default_album.png';
 
+import '../panel.css';
 import './artistsPanel.css';
 
 type Props = {
@@ -24,7 +25,7 @@ class ArtistsPanel extends Component<Props> {
         const isActiveIcon =
           supposedToBeRatingValue >= i ? 'active' : 'default';
         const starIconClassName = [
-          'ArtistsPanel__rating__icon',
+          'ArtistsThumbnail__rating__icon',
           isActiveIcon
         ].join(' ');
 
@@ -44,29 +45,31 @@ class ArtistsPanel extends Component<Props> {
 
       return (
         <Link to={artistLink} key={artist.id}>
-          <div className="ArtistsPanel__thumbnail">
+          <div className="Thumbnail ArtistsThumbnail">
             <img
-              className="ArtistsPanel__thumbnail__image"
+              className="Thumbnail__image"
               src={coverUrl}
               alt="default_artist_cover"
             />
-            <h4 className="ArtistsPanel__thumbnail__title">{name}</h4>
-            <span className="ArtistsPanel__thumbnail__followers">
+            <h4 className="Thumbnail__title">{name}</h4>
+            <span className="Thumbnail__details">
               {totalFollowers} followers
             </span>
-            <div className="ArtistsPanel__rating">{buildRatingTemplate()}</div>
+            <div className="ArtistsThumbnail__rating">
+              {buildRatingTemplate()}
+            </div>
           </div>
         </Link>
       );
     };
 
     const buildThumbnailsList = () => (
-      <div className="ArtistsPanel__list">
+      <div className="Panel__list ArtistsPanelList">
         {artists.map(artist => buildThumbnail(artist))}
       </div>
     );
 
-    return <div className="ArtistsPanel">{buildThumbnailsList()}</div>;
+    return <div className="Panel ArtistsPanel">{buildThumbnailsList()}</div>;
   }
 }
 

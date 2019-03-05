@@ -11,7 +11,6 @@ import ProfilePage from '../../pages/profile';
 import SearchPage from '../../pages/search';
 import ErrorPage from '../../pages/error';
 import Navigation from '../navigation';
-
 import Guard from '../../guard';
 
 import * as PATHS from '../../../routes';
