@@ -1,6 +1,6 @@
 :root {
-  --main-unclouded-color: #e2e2e2;
   --main-activeStar-color: #cc0505;
+  --main-discret-color: #909090;
   --main-spotify-color: #00b662;
 }
 
@@ -9,19 +9,19 @@
 }
 
 .App.dark {
+  --main-unclouded-color: #e2e2e2;
   --main-dark-color: #222222;
   --main-gloomy-color: #3a3a3a;
   --main-content-color: #585858;
-  --main-discret-color: #909090;
   --main-element-color: #cecece;
 }
 
 .App.light {
-  --main-dark-color: #585858;
-  --main-gloomy-color: #909090;
-  --main-content-color: #cecece;
-  --main-discret-color: #e7e7e7;
-  --main-element-color: #ffffff;
+  --main-content-color: white;
+  --main-dark-color: #909090;
+  --main-element-color: #cecece;
+  --main-gloomy-color: #00b66280;
+  --main-unclouded-color: #909090;
 }
 
 .isFullScreen {
