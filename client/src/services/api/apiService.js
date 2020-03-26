@@ -25,7 +25,9 @@ export class ApiService {
       if (redirected && url) {
         window.location.replace(url);
       } else {
-        window.location.replace('/app/error/authentication-error');
+        window.location.replace(
+          '/app/error/You must being logged into Spotify'
+        );
       }
     });
   };
@@ -42,7 +44,7 @@ export class ApiService {
       const { status, redirected, url } = response;
 
       if (status !== 200) {
-        window.location.replace('/app/error/search-error');
+        window.location.replace('/app/error/No results');
         return null;
       }
 

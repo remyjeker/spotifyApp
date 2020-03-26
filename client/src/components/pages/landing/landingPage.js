@@ -23,9 +23,7 @@ class LandingPage extends Component<Props> {
       <div className="AppPage LandingPage">
         <button className="SpotifyButton" type="button" onClick={handleClick}>
           <div className="SpotifyButton__wrapper">
-            <div className="SpotifyButton__title">
-              <span>Login with Spotify</span>
-            </div>
+            <div className="SpotifyButton__title">Login with Spotify</div>
             <img src={spLogo} className="SpotifyLogo" alt="spotify_logo" />
           </div>
         </button>

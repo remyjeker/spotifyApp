@@ -20,7 +20,7 @@
   --main-content-color: white;
   --main-dark-color: #909090;
   --main-element-color: #cecece;
-  --main-gloomy-color: #00b66280;
+  --main-gloomy-color: white;
   --main-unclouded-color: #909090;
 }
 
@@ -54,6 +54,7 @@
   align-items: center;
   display: flex;
   justify-content: center;
+  padding: 15px;
 }
 
 .SpotifyButton__title {
